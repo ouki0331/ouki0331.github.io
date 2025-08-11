@@ -43,13 +43,16 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-syntax_highlighter: highlight.js
+syntax_highlighter:
+# highlight:
+#   line_number: true
+#   auto_detect: false
+#   tab_replace: ''
+#   wrap: true
+#   hljs: false
 highlight:
-  line_number: true
-  auto_detect: false
-  tab_replace: ''
-  wrap: true
-  hljs: false
+  enable: true
+  style: github
 prismjs:
   preprocess: true
   line_number: true
@@ -96,7 +99,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: particlex
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -105,3 +108,10 @@ deploy:
   repo: https://github.com/ouki0331/ouki0331.github.io
   # example, https://github.com/hexojs/hexojs.github.io
   branch: gh-pages
+
+archive_generator:
+    enabled: true
+    per_page: 0
+    yearly: false
+    monthly: false
+    daily: false
