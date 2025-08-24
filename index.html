@@ -1,0 +1,1732 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Hexo</title>
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="https://static-argvchs.netlify.app/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+<script src="/js/lib/home.js"></script>
+
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/css/main.css" />
+<link rel="preconnect" href="https://static-argvchs.netlify.app" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>HEXO</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;HEXO</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div id="home-head">
+    <div
+        id="home-background"
+        ref="homeBackground"
+        data-images="https://static-argvchs.netlify.app/images/background.jpg"
+    ></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>Hexo</h1>
+                <h3></h3>
+                <h5></h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div
+    id="home-posts-wrap"
+    ref="homePostsWrap"
+    true
+>
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2025/08/24/php/wrapper_functions_test-case/">
+        <h2 class="post-title"></h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/24
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <hr>
+<h2 id="title-ラッパー関数テストケースdate-2025-08-24-14-54-02tags-”php”"><a href="#title-ラッパー関数テストケースdate-2025-08-24-14-54-02tags-”php”" class="headerlink" title="title: ラッパー関数テストケースdate: 2025-08-24 14:54:02tags:”php”"></a>title: ラッパー関数テストケース<br>date: 2025-08-24 14:54:02<br>tags:”php”</h2><h1 id="ラッパー関数の使用方法"><a href="#ラッパー関数の使用方法" class="headerlink" title="ラッパー関数の使用方法"></a>ラッパー関数の使用方法</h1><p>ラッパー関数のクラスは既に<code>V2</code>環境に導入しました。今の<code>V２</code>環境に稼働している全てシステムは何も導入せずにそのまま使えます。</p>
+<h2 id="ロカール事前準備"><a href="#ロカール事前準備" class="headerlink" title="ロカール事前準備:"></a>ロカール事前準備:</h2><ul>
+<li><code>zentaku-env-v2</code>をプールして、</li>
+<li><code>docker-compose.yml</code>の<code>zentaku-php-v2p</code>の<code>volumes</code>に<code>- ./php/conf/ZentakuV2Functions.php:/usr/share/php/ZentakuV2Functions.php</code>と追加します</li>
+<li><code>docker compose down</code> と<code>docker compose up -d</code>　実行します。</li>
+</ul>
+<pre><code class="language-bash">cd C:/workspace/zentaku2/zentaku-env-v2
+git pull
+docker compose down
+docker compose up -d
+</code></pre>
+<h2 id="実装した関数の切り替え-例"><a href="#実装した関数の切り替え-例" class="headerlink" title="実装した関数の切り替え,例"></a>実装した関数の切り替え,例</h2><p><code>strlen(</code> -&gt; <code>\App\Library\ZentakuV2Functions::strlen_v2(</code><br><code>substr(</code> -&gt; <code>\App\Library\ZentakuV2Functions::substr_v2(</code><br><code>strpos(</code> -&gt; <code>\App\Library\ZentakuV2Functions::strpos_v2(</code><br><code>str_replace(</code> -&gt; <code>\App\Library\ZentakuV2Functions::str_replace_v2(</code><br><code>implode(</code> -&gt; <code>\App\Library\ZentakuV2Functions::implode_v2(</code></p>
+<p><code>array_merge(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_merge_v2(</code><br><code>array_keys(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_keys_v2(</code><br><code>array_values(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_values_v2(</code><br><code>in_array(</code> -&gt; <code>\App\Library\ZentakuV2Functions::in_array_v2(</code><br><code>array_key_exists(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_key_exists_v2(</code></p>
+<p><code>json_decode(</code> -&gt; <code>\App\Library\ZentakuV2Functions::json_decode_v2(</code></p>
+<p><code>mb_substr(</code> -&gt; <code>\App\Library\ZentakuV2Functions::mb_substr_v2(</code><br><code>mb_strpos(</code> -&gt; <code>\App\Library\ZentakuV2Functions::mb_strpos_v2(</code><br><code>explode(</code> -&gt; <code>\App\Library\ZentakuV2Functions::explode_v2(</code></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li><font style="color:red">count()関数は汎用過ぎるので,grepでそのまま切り替えは危険です。例えば、postgresqlとphalconの固有関数にcountがあり、直接切り替えるとsqlが正しく動けない可能性があります。その故、一つ一つチェックしてください。</font></li>
+<li>実装していない挙動が変わった標準関数はあるはず、追加したい場合は<code>/workspace/zentaku2/zentaku-env-v2/php/conf/ZentakuV2Functions.php</code>に追加してください。実装したら、みんなにお知らせください。</li>
+</ul>
+<h2 id="事前調査"><a href="#事前調査" class="headerlink" title="事前調査"></a>事前調査</h2><ul>
+<li>ラッパー関数のクラスのロードタイミング:<br>以下のコードをindex.phpに書いて、実行とします。<pre><code>&lt;?php
+declare(strict_types=1);
+var_dump(\App\Library\ZentakuV2Functions::strlen_v2(&quot;99&quot;));exit;
+use Phalcon\Di\FactoryDefault;
+</code></pre>
+  画面は<code>int(2)</code>が出力されました。つまり、<code>index.php</code>実行する最初に<code>\App\Library\ZentakuV2Functions</code>がロードされたことを示しています。</li>
+<li>vscodeに赤い波線が表示しない設定<br><code>\.vscode\setting.json</code>に以下のコードを追加します。(自分のパスに切り替えてください)<pre><code>    &quot;intelephense.environment.includePaths&quot;: [
+    &quot;/home/ouki/workspace/zentaku2/zentaku-env-v2/php/conf&quot;
+],
+</code></pre>
+</li>
+</ul>
+<h2 id="標準関数とラッパー関数の出力比較、例"><a href="#標準関数とラッパー関数の出力比較、例" class="headerlink" title="標準関数とラッパー関数の出力比較、例"></a>標準関数とラッパー関数の出力比較、例</h2><blockquote>
+<p>以下のコードをコーヒーして<a target="_blank" rel="noopener" href="https://onlinephp.io/">PHPSandBox</a> で確認ができます</p>
+</blockquote>
+<h3 id="strlen-vs-strlen-v2"><a href="#strlen-vs-strlen-v2" class="headerlink" title="strlen vs strlen_v2"></a>strlen vs strlen_v2</h3><table>
+<thead>
+<tr>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var_dump(strlen(null));</td>
+<td>var_dump(strlen_v2(null));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(“”));</td>
+<td>var_dump(strlen_v2(“”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(“hello”));</td>
+<td>var_dump(strlen_v2(“hello”));</td>
+<td>int(5)</td>
+<td>int(5)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(123));</td>
+<td>var_dump(strlen_v2(123));</td>
+<td>int(3)</td>
+<td>int(3)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(3.14));</td>
+<td>var_dump(strlen_v2(3.14));</td>
+<td>int(4)</td>
+<td>int(4)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(true));</td>
+<td>var_dump(strlen_v2(true));</td>
+<td>int(1)</td>
+<td>int(1)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(false));</td>
+<td>var_dump(strlen_v2(false));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strlen([]));</td>
+<td>var_dump(strlen_v2([]));</td>
+<td>Warning: strlen() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 10<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strlen([1, 2, 3]));</td>
+<td>var_dump(strlen_v2([1, 2, 3]));</td>
+<td>Warning: strlen() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 11<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strlen(new stdClass()));</td>
+<td>var_dump(strlen_v2(new stdClass()));</td>
+<td>Warning: strlen() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 12<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strlen(0));</td>
+<td>var_dump(strlen_v2(0));</td>
+<td>int(1)</td>
+<td>int(1)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(-456));</td>
+<td>var_dump(strlen_v2(-456));</td>
+<td>int(4)</td>
+<td>int(4)</td>
+</tr>
+</tbody></table>
+<h3 id="substr-vs-substr-v2"><a href="#substr-vs-substr-v2" class="headerlink" title="substr vs substr_v2"></a>substr vs substr_v2</h3><table>
+<thead>
+<tr>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var_dump(substr(null, 0));</td>
+<td>var_dump(substr_v2(null, 0));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(null, 1));</td>
+<td>var_dump(substr_v2(null, 1));</td>
+<td>bool(false)</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(null, -1));</td>
+<td>var_dump(substr_v2(null, -1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“”, 0));</td>
+<td>var_dump(substr_v2(“”, 0));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“”, 1));</td>
+<td>var_dump(substr_v2(“”, 1));</td>
+<td>bool(false)</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“”, -1));</td>
+<td>var_dump(substr_v2(“”, -1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 0));</td>
+<td>var_dump(substr_v2(“hello”, 0));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 1));</td>
+<td>var_dump(substr_v2(“hello”, 1));</td>
+<td>string(4) “ello”</td>
+<td>string(4) “ello”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, -1));</td>
+<td>var_dump(substr_v2(“hello”, -1));</td>
+<td>string(1) “o”</td>
+<td>string(1) “o”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 0, 3));</td>
+<td>var_dump(substr_v2(“hello”, 0, 3));</td>
+<td>string(3) “hel”</td>
+<td>string(3) “hel”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 1, 3));</td>
+<td>var_dump(substr_v2(“hello”, 1, 3));</td>
+<td>string(3) “ell”</td>
+<td>string(3) “ell”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, -2, 1));</td>
+<td>var_dump(substr_v2(“hello”, -2, 1));</td>
+<td>string(1) “l”</td>
+<td>string(1) “l”</td>
+</tr>
+<tr>
+<td>var_dump(substr(123, 0));</td>
+<td>var_dump(substr_v2(123, 0));</td>
+<td>string(3) “123”</td>
+<td>string(3) “123”</td>
+</tr>
+<tr>
+<td>var_dump(substr(123, 1));</td>
+<td>var_dump(substr_v2(123, 1));</td>
+<td>string(2) “23”</td>
+<td>string(2) “23”</td>
+</tr>
+<tr>
+<td>var_dump(substr(123, -1));</td>
+<td>var_dump(substr_v2(123, -1));</td>
+<td>string(1) “3”</td>
+<td>string(1) “3”</td>
+</tr>
+<tr>
+<td>var_dump(substr(3.14, 0));</td>
+<td>var_dump(substr_v2(3.14, 0));</td>
+<td>string(4) “3.14”</td>
+<td>string(4) “3.14”</td>
+</tr>
+<tr>
+<td>var_dump(substr(3.14, 1));</td>
+<td>var_dump(substr_v2(3.14, 1));</td>
+<td>string(3) “.14”</td>
+<td>string(3) “.14”</td>
+</tr>
+<tr>
+<td>var_dump(substr(3.14, -1));</td>
+<td>var_dump(substr_v2(3.14, -1));</td>
+<td>string(1) “4”</td>
+<td>string(1) “4”</td>
+</tr>
+<tr>
+<td>var_dump(substr(true, 0));</td>
+<td>var_dump(substr_v2(true, 0));</td>
+<td>string(1) “1”</td>
+<td>string(1) “1”</td>
+</tr>
+<tr>
+<td>var_dump(substr(true, 1));</td>
+<td>var_dump(substr_v2(true, 1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(false, 0));</td>
+<td>var_dump(substr_v2(false, 0));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(false, 1));</td>
+<td>var_dump(substr_v2(false, 1));</td>
+<td>bool(false)</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr([], 0));</td>
+<td>var_dump(substr_v2([], 0));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 25<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr([], 1));</td>
+<td>var_dump(substr_v2([], 1));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 26<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr([1, 2, 3], 0));</td>
+<td>var_dump(substr_v2([1, 2, 3], 0));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 27<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr([1, 2, 3], 1));</td>
+<td>var_dump(substr_v2([1, 2, 3], 1));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 28<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr(new stdClass(), 0));</td>
+<td>var_dump(substr_v2(new stdClass(), 0));</td>
+<td>Warning: substr() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 29<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr(new stdClass(), 1));</td>
+<td>var_dump(substr_v2(new stdClass(), 1));</td>
+<td>Warning: substr() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 30<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr(0, 0));</td>
+<td>var_dump(substr_v2(0, 0));</td>
+<td>string(1) “0”</td>
+<td>string(1) “0”</td>
+</tr>
+<tr>
+<td>var_dump(substr(0, 1));</td>
+<td>var_dump(substr_v2(0, 1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(-456, 0));</td>
+<td>var_dump(substr_v2(-456, 0));</td>
+<td>string(4) “-456”</td>
+<td>string(4) “-456”</td>
+</tr>
+<tr>
+<td>var_dump(substr(-456, 1));</td>
+<td>var_dump(substr_v2(-456, 1));</td>
+<td>string(3) “456”</td>
+<td>string(3) “456”</td>
+</tr>
+<tr>
+<td>var_dump(substr(-456, -1));</td>
+<td>var_dump(substr_v2(-456, -1));</td>
+<td>string(1) “6”</td>
+<td>string(1) “6”</td>
+</tr>
+</tbody></table>
+<h3 id="strpos-vs-strpos-v2"><a href="#strpos-vs-strpos-v2" class="headerlink" title="strpos vs strpos_v2"></a>strpos vs strpos_v2</h3><table>
+<thead>
+<tr>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var_dump(strpos(“hello world”, “world”));</td>
+<td>var_dump(strpos_v2(“hello world”, “world”));</td>
+<td>int(6)</td>
+<td>int(6)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “hello”));</td>
+<td>var_dump(strpos_v2(“hello world”, “hello”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “o”));</td>
+<td>var_dump(strpos_v2(“hello world”, “o”));</td>
+<td>int(4)</td>
+<td>int(4)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “xyz”));</td>
+<td>var_dump(strpos_v2(“hello world”, “xyz”));</td>
+<td>bool(false)</td>
+<td>bool(false)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “”));</td>
+<td>var_dump(strpos_v2(“hello world”, “”));</td>
+<td>Warning: strpos(): Empty needle in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 9<br>bool(false)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“”, “hello”));</td>
+<td>var_dump(strpos_v2(“”, “hello”));</td>
+<td>bool(false)</td>
+<td>bool(false)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“”, “”));</td>
+<td>var_dump(strpos_v2(“”, “”));</td>
+<td>Warning: strpos(): Empty needle in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 11<br>bool(false)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “o”, 5));</td>
+<td>var_dump(strpos_v2(“hello world”, “o”, 5));</td>
+<td>int(7)</td>
+<td>int(7)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(null, “test”));</td>
+<td>var_dump(strpos_v2(null, “test”));</td>
+<td>bool(false)</td>
+<td>bool(false)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“test”, null));</td>
+<td>var_dump(strpos_v2(“test”, null));</td>
+<td>Deprecated: strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 14<br>bool(false)</td>
+<td>Deprecated: strpos(): Passing null to parameter #2 ($needle) of type string is deprecated in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 11<br>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(12345, “3”));</td>
+<td>var_dump(strpos_v2(12345, “3”));</td>
+<td>int(2)</td>
+<td>int(2)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(3.14, “.”));</td>
+<td>var_dump(strpos_v2(3.14, “.”));</td>
+<td>int(1)</td>
+<td>int(1)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(true, “1”));</td>
+<td>var_dump(strpos_v2(true, “1”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(false, “”));</td>
+<td>var_dump(strpos_v2(false, “”));</td>
+<td>Warning: strpos(): Empty needle in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 18<br>bool(false)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos([], “test”));</td>
+<td>var_dump(strpos_v2([], “test”));</td>
+<td>Warning: strpos() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 19<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strpos(new stdClass(), “test”));</td>
+<td>var_dump(strpos_v2(new stdClass(), “test”));</td>
+<td>Warning: strpos() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 20<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strpos(0, “0”));</td>
+<td>var_dump(strpos_v2(0, “0”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(-456, “-“));</td>
+<td>var_dump(strpos_v2(-456, “-“));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+</tbody></table>
+<pre><code class="language-php">php 7.3.33
+var_dump(strlen(null));
+var_dump(strlen(&quot;&quot;));
+var_dump(strlen(&quot;hello&quot;));
+var_dump(strlen(123));
+var_dump(strlen(3.14));
+var_dump(strlen(true));
+var_dump(strlen(false));
+var_dump(strlen([]));
+var_dump(strlen([1, 2, 3]));
+var_dump(strlen(new stdClass()));
+var_dump(strlen(0));
+var_dump(strlen(-456));
+/* 出力
+int(0)
+int(0)
+int(5)
+int(3)
+int(4)
+int(1)
+int(0)
+
+Warning: strlen() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 10
+NULL
+
+Warning: strlen() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 11
+NULL
+
+Warning: strlen() expects parameter 1 to be string, object given in /home/user/scripts/code.php on line 12
+NULL
+int(1)
+int(4)
+*/
+php 8.4.8
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つstrlen関数の代替
+     * @param mixed $string
+     * @return int|null
+     */
+    function strlen_v2($string=&quot;&quot;)
+    &#123;
+        try&#123;
+            //php 7.3.33はnullを返す
+            if(is_object($string)||is_array($string))&#123;
+                return null;
+            &#125;
+            //php 7.3.33は0を返す
+            if(is_null($string))&#123;
+                return 0;
+            &#125; 
+            //他には文字列として処理する、整数か少数はphp 7.3.33とphp8.4.8は全く同じだ。
+            return strlen($string);
+        &#125;catch(\Throwable $th)&#123;
+            // self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+
+var_dump(strlen_v2(null));
+var_dump(strlen_v2(&quot;&quot;));
+var_dump(strlen_v2(&quot;hello&quot;));
+var_dump(strlen_v2(123));
+var_dump(strlen_v2(3.14));
+var_dump(strlen_v2(true));
+var_dump(strlen_v2(false));
+var_dump(strlen_v2([]));
+var_dump(strlen_v2([1, 2, 3]));
+var_dump(strlen_v2(new stdClass()));
+var_dump(strlen_v2(0));
+var_dump(strlen_v2(-456));
+
+/*
+ * 出力
+int(0)
+int(0)
+int(5)
+int(3)
+int(4)
+int(1)
+int(0)
+NULL
+NULL
+NULL
+int(1)
+int(4)
+ * */
+</code></pre>
+<h3 id="substr-vs-substr-v2-1"><a href="#substr-vs-substr-v2-1" class="headerlink" title="substr vs substr_v2"></a>substr vs substr_v2</h3><pre><code class="language-php">php 7.3.3
+var_dump(substr(null, 0));
+var_dump(substr(null, 1));
+var_dump(substr(null, -1));
+var_dump(substr(&quot;&quot;, 0));
+var_dump(substr(&quot;&quot;, 1));
+var_dump(substr(&quot;&quot;, -1));
+var_dump(substr(&quot;hello&quot;, 0));
+var_dump(substr(&quot;hello&quot;, 1));
+var_dump(substr(&quot;hello&quot;, -1));
+var_dump(substr(&quot;hello&quot;, 0, 3));
+var_dump(substr(&quot;hello&quot;, 1, 3));
+var_dump(substr(&quot;hello&quot;, -2, 1));
+var_dump(substr(123, 0));
+var_dump(substr(123, 1));
+var_dump(substr(123, -1));
+var_dump(substr(3.14, 0));
+var_dump(substr(3.14, 1));
+var_dump(substr(3.14, -1));
+var_dump(substr(true, 0));
+var_dump(substr(true, 1));
+var_dump(substr(false, 0));
+var_dump(substr(false, 1));
+var_dump(substr([], 0));
+var_dump(substr([], 1));
+var_dump(substr([1, 2, 3], 0));
+var_dump(substr([1, 2, 3], 1));
+var_dump(substr(new stdClass(), 0));
+var_dump(substr(new stdClass(), 1));
+var_dump(substr(0, 0));
+var_dump(substr(0, 1));
+var_dump(substr(-456, 0));
+var_dump(substr(-456, 1));
+var_dump(substr(-456, -1));
+/*
+ * 出力
+ string(0) &quot;&quot;
+bool(false)
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+bool(false)
+string(0) &quot;&quot;
+string(5) &quot;hello&quot;
+string(4) &quot;ello&quot;
+string(1) &quot;o&quot;
+string(3) &quot;hel&quot;
+string(3) &quot;ell&quot;
+string(1) &quot;l&quot;
+string(3) &quot;123&quot;
+string(2) &quot;23&quot;
+string(1) &quot;3&quot;
+string(4) &quot;3.14&quot;
+string(3) &quot;.14&quot;
+string(1) &quot;4&quot;
+string(1) &quot;1&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+bool(false)
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 25
+NULL
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 26
+NULL
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 27
+NULL
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 28
+NULL
+
+Warning: substr() expects parameter 1 to be string, object given in /home/user/scripts/code.php on line 29
+NULL
+
+Warning: substr() expects parameter 1 to be string, object given in /home/user/scripts/code.php on line 30
+NULL
+string(1) &quot;0&quot;
+string(0) &quot;&quot;
+string(4) &quot;-456&quot;
+string(3) &quot;456&quot;
+string(1) &quot;6&quot;
+ */
+
+
+php 8.4.8
+var_dump(substr_v2(null, 0));
+var_dump(substr_v2(null, 1));
+var_dump(substr_v2(null, -1));
+var_dump(substr_v2(&quot;&quot;, 0));
+var_dump(substr_v2(&quot;&quot;, 1));
+var_dump(substr_v2(&quot;&quot;, -1));
+var_dump(substr_v2(&quot;hello&quot;, 0));
+var_dump(substr_v2(&quot;hello&quot;, 1));
+var_dump(substr_v2(&quot;hello&quot;, -1));
+var_dump(substr_v2(&quot;hello&quot;, 0, 3));
+var_dump(substr_v2(&quot;hello&quot;, 1, 3));
+var_dump(substr_v2(&quot;hello&quot;, -2, 1));
+var_dump(substr_v2(123, 0));
+var_dump(substr_v2(123, 1));
+var_dump(substr_v2(123, -1));
+var_dump(substr_v2(3.14, 0));
+var_dump(substr_v2(3.14, 1));
+var_dump(substr_v2(3.14, -1));
+var_dump(substr_v2(true, 0));
+var_dump(substr_v2(true, 1));
+var_dump(substr_v2(false, 0));
+var_dump(substr_v2(false, 1));
+var_dump(substr_v2([], 0));
+var_dump(substr_v2([], 1));
+var_dump(substr_v2([1, 2, 3], 0));
+var_dump(substr_v2([1, 2, 3], 1));
+var_dump(substr_v2(new stdClass(), 0));
+var_dump(substr_v2(new stdClass(), 1));
+var_dump(substr_v2(0, 0));
+var_dump(substr_v2(0, 1));
+var_dump(substr_v2(-456, 0));
+var_dump(substr_v2(-456, 1));
+var_dump(substr_v2(-456, -1));
+/*
+ string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(5) &quot;hello&quot;
+string(4) &quot;ello&quot;
+string(1) &quot;o&quot;
+string(3) &quot;hel&quot;
+string(3) &quot;ell&quot;
+string(1) &quot;l&quot;
+string(3) &quot;123&quot;
+string(2) &quot;23&quot;
+string(1) &quot;3&quot;
+string(4) &quot;3.14&quot;
+string(3) &quot;.14&quot;
+string(1) &quot;4&quot;
+string(1) &quot;1&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+string(1) &quot;0&quot;
+string(0) &quot;&quot;
+string(4) &quot;-456&quot;
+string(3) &quot;456&quot;
+string(1) &quot;6&quot;
+ * /
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>echo ‘line-1 :’; var_dump(str_replace(null, “x”, “hello”));</td>
+<td>echo ‘line-1 :’; var_dump(str_replace_v2(null, “x”, “hello”));</td>
+<td>string(5) “line-1 :string(5) “hello”</td>
+<td>&lt;<DIFF>&gt; string(5) “hello”</td>
+</tr>
+<tr>
+<td>2</td>
+<td>echo ‘line-2 :’; var_dump(str_replace(“”, “x”, “hello”));</td>
+<td>echo ‘line-2 :’; var_dump(str_replace_v2(“”, “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>3</td>
+<td>echo ‘line-3 :’; var_dump(str_replace(“l”, null, “hello”));</td>
+<td>echo ‘line-3 :’; var_dump(str_replace_v2(“l”, null, “hello”));</td>
+<td>string(3) “heo”</td>
+<td>string(3) “heo”</td>
+</tr>
+<tr>
+<td>4</td>
+<td>echo ‘line-4 :’; var_dump(str_replace(“l”, “”, “hello”));</td>
+<td>echo ‘line-4 :’; var_dump(str_replace_v2(“l”, “”, “hello”));</td>
+<td>string(3) “heo”</td>
+<td>string(3) “heo”</td>
+</tr>
+<tr>
+<td>5</td>
+<td>echo ‘line-5 :’; var_dump(str_replace(“l”, “x”, null));</td>
+<td>echo ‘line-5 :’; var_dump(str_replace_v2(“l”, “x”, null));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>6</td>
+<td>echo ‘line-6 :’; var_dump(str_replace(“l”, “x”, “”));</td>
+<td>echo ‘line-6 :’; var_dump(str_replace_v2(“l”, “x”, “”));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>7</td>
+<td>echo ‘line-7 :’; var_dump(str_replace(“l”, “x”, “hello”));</td>
+<td>echo ‘line-7 :’; var_dump(str_replace_v2(“l”, “x”, “hello”));</td>
+<td>string(5) “hexxo”</td>
+<td>string(5) “hexxo”</td>
+</tr>
+<tr>
+<td>8</td>
+<td>echo ‘line-8 :’; var_dump(str_replace(“ll”, “x”, “hello”));</td>
+<td>echo ‘line-8 :’; var_dump(str_replace_v2(“ll”, “x”, “hello”));</td>
+<td>string(4) “hexo”</td>
+<td>string(4) “hexo”</td>
+</tr>
+<tr>
+<td>9</td>
+<td>echo ‘line-9 :’; var_dump(str_replace(“o”, “x”, “hello”));</td>
+<td>echo ‘line-9 :’; var_dump(str_replace_v2(“o”, “x”, “hello”));</td>
+<td>string(5) “hellx”</td>
+<td>string(5) “hellx”</td>
+</tr>
+<tr>
+<td>10</td>
+<td>echo ‘line-10 :’; var_dump(str_replace(“hello”, “x”, “hello”));</td>
+<td>echo ‘line-10 :’; var_dump(str_replace_v2(“hello”, “x”, “hello”));</td>
+<td>string(1) “x”</td>
+<td>string(1) “x”</td>
+</tr>
+<tr>
+<td>11</td>
+<td>echo ‘line-11 :’; var_dump(str_replace(“z”, “x”, “hello”));</td>
+<td>echo ‘line-11 :’; var_dump(str_replace_v2(“z”, “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>12</td>
+<td>echo ‘line-12 :’; var_dump(str_replace(“”, “x”, “hello”));</td>
+<td>echo ‘line-12 :’; var_dump(str_replace_v2(“”, “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>13</td>
+<td>echo ‘line-13 :’; var_dump(str_replace(“l”, “”, “hello”));</td>
+<td>echo ‘line-13 :’; var_dump(str_replace_v2(“l”, “”, “hello”));</td>
+<td>string(3) “heo”</td>
+<td>string(3) “heo”</td>
+</tr>
+<tr>
+<td>14</td>
+<td>echo ‘line-14 :’; var_dump(str_replace([“l”, “o”], “x”, “hello”));</td>
+<td>echo ‘line-14 :’; var_dump(str_replace_v2([“l”, “o”], “x”, “hello”));</td>
+<td>string(5) “hexxx”</td>
+<td>string(5) “hexxx”</td>
+</tr>
+<tr>
+<td>15</td>
+<td>echo ‘line-15 :’; var_dump(str_replace([“l”, “o”], [“x”, “y”], “hello”));</td>
+<td>echo ‘line-15 :’; var_dump(str_replace_v2([“l”, “o”], [“x”, “y”], “hello”));</td>
+<td>string(5) “hexxy”</td>
+<td>string(5) “hexxy”</td>
+</tr>
+<tr>
+<td>16</td>
+<td>echo ‘line-16 :’; var_dump(str_replace([“l”, “o”], [“x”], “hello”));</td>
+<td>echo ‘line-16 :’; var_dump(str_replace_v2([“l”, “o”], [“x”], “hello”));</td>
+<td>string(4) “hexx”</td>
+<td>string(4) “hexx”</td>
+</tr>
+<tr>
+<td>17</td>
+<td>echo ‘line-17 :’; var_dump(str_replace(“l”, [“x”, “y”], “hello”));</td>
+<td>echo ‘line-17 :’; var_dump(str_replace_v2(“l”, [“x”, “y”], “hello”));</td>
+<td>Notice: Array to string conversion in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 21<br>string(13) “heArrayArrayo”</td>
+<td>&lt;<DIFF>&gt; Fatal error: Uncaught TypeError: str_replace(): Argument #2 ($replace) must be of type string when argument #1 ($search) is a string in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php:12<br>Stack trace:<br>#0 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(12): str_replace(‘l’, Array, ‘hello’, NULL)<br>#1 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(31): str_replace_v2(‘l’, Array, ‘hello’)<br>#2 {main}<br>  thrown in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 12</td>
+</tr>
+<tr>
+<td>18</td>
+<td>echo ‘line-18 :’; var_dump(str_replace(“l”, “x”, [“hello”, “world”]));</td>
+<td>echo ‘line-18 :’; var_dump(str_replace_v2(“l”, “x”, [“hello”, “world”]));</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxo”<br>  [1]&#x3D;&gt;<br>  string(5) “worxd”<br>}</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxo”<br>  [1]&#x3D;&gt;<br>  string(5) “worxd”<br>}</td>
+</tr>
+<tr>
+<td>19</td>
+<td>echo ‘line-19 :’; var_dump(str_replace([“l”, “o”], “x”, [“hello”, “world”]));</td>
+<td>echo ‘line-19 :’; var_dump(str_replace_v2([“l”, “o”], “x”, [“hello”, “world”]));</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxx”<br>  [1]&#x3D;&gt;<br>  string(5) “wxrxd”<br>}</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxx”<br>  [1]&#x3D;&gt;<br>  string(5) “wxrxd”<br>}</td>
+</tr>
+<tr>
+<td>20</td>
+<td>echo ‘line-20 :’; var_dump(str_replace(123, “x”, “hello123”));</td>
+<td>echo ‘line-20 :’; var_dump(str_replace_v2(123, “x”, “hello123”));</td>
+<td>string(6) “hellox”</td>
+<td>string(6) “hellox”</td>
+</tr>
+<tr>
+<td>21</td>
+<td>echo ‘line-21 :’; var_dump(str_replace(“2”, 9, “hello123”));</td>
+<td>echo ‘line-21 :’; var_dump(str_replace_v2(“2”, 9, “hello123”));</td>
+<td>string(8) “hello193”</td>
+<td>string(8) “hello193”</td>
+</tr>
+<tr>
+<td>22</td>
+<td>echo ‘line-22 :’; var_dump(str_replace(“2”, “x”, 123));</td>
+<td>echo ‘line-22 :’; var_dump(str_replace_v2(“2”, “x”, 123));</td>
+<td>string(3) “1x3”</td>
+<td>string(3) “1x3”</td>
+</tr>
+<tr>
+<td>23</td>
+<td>echo ‘line-23 :’; var_dump(str_replace(3.14, “x”, “test3.14”));</td>
+<td>echo ‘line-23 :’; var_dump(str_replace_v2(3.14, “x”, “test3.14”));</td>
+<td>string(5) “testx”</td>
+<td>string(5) “testx”</td>
+</tr>
+<tr>
+<td>24</td>
+<td>echo ‘line-24 :’; var_dump(str_replace(“.”, “x”, 3.14));</td>
+<td>echo ‘line-24 :’; var_dump(str_replace_v2(“.”, “x”, 3.14));</td>
+<td>string(4) “3x14”</td>
+<td>string(4) “3x14”</td>
+</tr>
+<tr>
+<td>25</td>
+<td>echo ‘line-25 :’; var_dump(str_replace(“1”, “x”, 3.14));</td>
+<td>echo ‘line-25 :’; var_dump(str_replace_v2(“1”, “x”, 3.14));</td>
+<td>string(4) “3.x4”</td>
+<td>string(4) “3.x4”</td>
+</tr>
+<tr>
+<td>26</td>
+<td>echo ‘line-26 :’; var_dump(str_replace(true, “x”, “true1”));</td>
+<td>echo ‘line-26 :’; var_dump(str_replace_v2(true, “x”, “true1”));</td>
+<td>string(5) “truex”</td>
+<td>string(5) “truex”</td>
+</tr>
+<tr>
+<td>27</td>
+<td>echo ‘line-27 :’; var_dump(str_replace(“1”, “x”, true));</td>
+<td>echo ‘line-27 :’; var_dump(str_replace_v2(“1”, “x”, true));</td>
+<td>string(1) “x”</td>
+<td>string(1) “x”</td>
+</tr>
+<tr>
+<td>28</td>
+<td>echo ‘line-28 :’; var_dump(str_replace(false, “x”, “false”));</td>
+<td>echo ‘line-28 :’; var_dump(str_replace_v2(false, “x”, “false”));</td>
+<td>string(5) “false”</td>
+<td>string(5) “false”</td>
+</tr>
+<tr>
+<td>29</td>
+<td>echo ‘line-29 :’; var_dump(str_replace(“”, “x”, false));</td>
+<td>echo ‘line-29 :’; var_dump(str_replace_v2(“”, “x”, false));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>30</td>
+<td>echo ‘line-30 :’; var_dump(str_replace([], “x”, “hello”));</td>
+<td>echo ‘line-30 :’; var_dump(str_replace_v2([], “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>31</td>
+<td>echo ‘line-31 :’; var_dump(str_replace(“l”, “x”, []));</td>
+<td>echo ‘line-31 :’; var_dump(str_replace_v2(“l”, “x”, []));</td>
+<td>array(0) {<br>}</td>
+<td>array(0) {<br>}</td>
+</tr>
+<tr>
+<td>32</td>
+<td>echo ‘line-32 :’; var_dump(str_replace([1, 2], “x”, “hello”));</td>
+<td>echo ‘line-32 :’; var_dump(str_replace_v2([1, 2], “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>33</td>
+<td>echo ‘line-33 :’; var_dump(str_replace(“l”, “x”, [1, 2, 3]));</td>
+<td>echo ‘line-33 :’; var_dump(str_replace_v2(“l”, “x”, [1, 2, 3]));</td>
+<td>array(3) {<br>  [0]&#x3D;&gt;<br>  string(1) “1”<br>  [1]&#x3D;&gt;<br>  string(1) “2”<br>  [2]&#x3D;&gt;<br>  string(1) “3”<br>}</td>
+<td>array(3) {<br>  [0]&#x3D;&gt;<br>  string(1) “1”<br>  [1]&#x3D;&gt;<br>  string(1) “2”<br>  [2]&#x3D;&gt;<br>  string(1) “3”<br>}</td>
+</tr>
+<tr>
+<td>34</td>
+<td>echo ‘line-34 :’; var_dump(str_replace(new stdClass(), “x”, “hello”));</td>
+<td>echo ‘line-34 :’; var_dump(str_replace_v2(new stdClass(), “x”, “hello”));</td>
+<td>Recoverable fatal error: Object of class stdClass could not be converted to string in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 38</td>
+<td>&lt;<DIFF>&gt; Fatal error: Uncaught TypeError: str_replace(): Argument #1 ($search) must be of type array|string, stdClass given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php:12<br>Stack trace:<br>#0 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(12): str_replace(Object(stdClass), ‘x’, ‘hello’, NULL)<br>#1 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(48): str_replace_v2(Object(stdClass), ‘x’, ‘hello’)<br>#2 {main}<br>  thrown in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 12</td>
+</tr>
+</tbody></table>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/08/24/php/wrapper_functions_test-case/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/08/24/php/wrapper_functions/">
+        <h2 class="post-title"></h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/24
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <hr>
+<h2 id="title-ラッパー関数date-2025-08-23-21-39-31tags"><a href="#title-ラッパー関数date-2025-08-23-21-39-31tags" class="headerlink" title="title: ラッパー関数date: 2025-08-23 21:39:31tags:"></a>title: ラッパー関数<br>date: 2025-08-23 21:39:31<br>tags:</h2><pre><code class="language-php">/**
+     * バージョン7.3.33のPHPでも互換性を持つstrlen関数の代替
+     * @param mixed $string
+     * @return int|null
+     */
+    public static function strlen_v2($string=&quot;&quot;):int|null
+    &#123;
+        try&#123;
+            //php 7.3.33はnullを返す
+            if(is_object($string)||is_array($string))&#123;
+                return null;
+            &#125;
+            //php 7.3.33は0を返す
+            if(is_null($string))&#123;
+                return 0;
+            &#125; 
+            //他には文字列として処理する、整数か少数はphp 7.3.33とphp8.4.8は全く同じだ。
+            return strlen($string);
+        &#125;catch(\Throwable $th)&#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     *  バージョン7.3.33のPHPでも互換性を持つsubstr関数の代替
+     * 二番目と三番目パラメータは整数以外のタイプで渡す場合は確認できなかった、もしあれば、調整必要があるでしょう
+     * @param mixed $string
+     * @param int $offset
+     * @param mixed $length
+     * @return string|null
+     */
+    public static function substr_v2($string, int $offset, ?int $length = null): string|null
+    &#123;
+        try&#123;
+            //PHP 7.3.33　と同じ
+            if(is_array($string)||is_object($string))&#123;
+                return null;
+            &#125;
+            if(is_null($string))&#123;
+                return &quot;&quot;;
+            &#125;
+            return substr($string,$offset,$length);
+        &#125;catch(\Throwable $th)&#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+
+    /**
+     * バージョン7.3.33 のPHPでも互換性を持つstrpos関数の代替
+     * @param mixed $haystack
+     * @param mixed $needle
+     * @param int $offset
+     * @return bool|int|null
+     */
+    public static function strpos_v2($haystack,$needle, int $offset = 0):int|bool|null&#123;
+        try&#123;
+            if(is_null($haystack))&#123;
+                return false;
+            &#125;
+            if(is_array($haystack)||is_object($haystack))&#123;
+                return null;
+            &#125;
+            return strpos($haystack,$needle,$offset);
+        &#125;catch(\Throwable $th)&#123;
+            self::writeErrorLog($th);
+            return false;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33 のPHPでも互換性を持つstr_replace関数の代替
+     * @param mixed $search
+     * @param mixed $replace
+     * @param mixed $subject
+     * @param int $count
+     * @return array|string
+     */
+    public static function str_replace_v2(
+        $search,
+        $replace,
+        $subject,
+        ?int &amp;$count = null
+    ): string|array&#123;
+        $search=$search??&quot;&quot;;
+        $replace=$replace??&quot;&quot;;
+        $subject=$subject??&quot;&quot;;
+        return str_replace($search,$replace,$subject,$count);
+    &#125;
+
+    /**
+     * バージョン7.3.33 のPHPでも互換性を持つimplode関数の代替
+     */
+    public static function implode_v2($separator_or_array, $array = null): ?string
+    &#123;
+        try &#123;
+            if ($array === null) &#123;
+                return is_array($separator_or_array) ? implode(&#39;&#39;, $separator_or_array) : null;
+            &#125;
+            if (is_array($separator_or_array) &amp;&amp; !is_array($array)) &#123;
+                [$separator_or_array, $array] = [$array, $separator_or_array];
+            &#125;
+            if (!is_array($array)) return null;
+            $separator = $separator_or_array ?? &#39;&#39;;
+            if (is_array($separator) || is_object($separator)) return null;
+            return implode((string)$separator, $array);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * PHP 7.1の挙動をエミュレートするcount関数の代替（非推奨）
+     * // --- 挙動の確認 ---
+     * // echo count_v2([&#39;a&#39;, &#39;b&#39;]); // 2
+     * // echo count_v2([]);         // 0
+     * // echo count_v2(null);       // 0 (正しく0になる)
+     * // echo count_v2(&quot;string&quot;);   // 1 (古い挙動)
+     * // echo count_v2(123);        // 1 (古い挙動)
+     * @param mixed $value
+     * @return int|null
+     */
+    public static  function count_v2($value)
+    &#123;
+        try &#123;
+            // 1. is_countableならcount()
+            if (is_countable($value)) &#123;
+                return count($value);
+            &#125;
+            // 2. nullなら0を返す（最重要）
+            if (is_null($value)) &#123;
+                return 0;
+            &#125;
+            // 3. それ以外の数えられない型（スカラー値など）は1を返す
+            return 1;
+
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return 0;
+        &#125;
+    &#125;
+
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つarray_merge関数の代替
+     * PHP 7.3.33の挙動に合わせ、引数に配列以外の値（nullを含む）が含まれていた場合にnullを返します。
+     * @param mixed ...$arrays マージする配列。
+     * @return array|null マージされた配列、またはエラー時にnull。
+     */
+    public static  function array_merge_v2(...$arrays): ?array
+    &#123;
+        try &#123;
+            // PHP 7.3では、引数なしで呼び出すとWarningを出してNULLを返す。PHP 8では空配列を返す。
+            // 7.3の挙動に合わせるため、引数がなければnullを返す。
+            if (empty($arrays)) &#123;
+                return null;
+            &#125;
+
+            // 全ての引数をチェックし、一つでも配列でなければnullを返す。
+            // これにより、PHP 7.3の「Warningを出してNULLを返す」挙動をエミュレートし、
+            // PHP 8以降で発生するTypeErrorを未然に防ぐ。
+            foreach ($arrays as $array) &#123;
+                if (!is_array($array)) &#123;
+                    return null;
+                &#125;
+            &#125;
+            // 全ての引数が配列であることが確認できたので、安全にネイティブ関数を呼び出す。
+            return array_merge(...$arrays);
+
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つarray_keys関数の代替
+     * @param mixed $array
+     * @param mixed $search_value
+     * @param bool $strict
+     * @return array|null
+     */
+    public static  function array_keys_v2($array, $search_value = null, bool $strict = false): ?array
+    &#123;
+        try &#123;
+            // PHP 7.3.33: nullや非配列はWarning → PHP 8+: TypeError
+            if (is_null($array) || !is_array($array)) &#123;
+                return null;
+            &#125;
+            // 第二引数がnullでない場合は検索値として使用
+            if (func_num_args() &gt; 1) &#123;
+                return array_keys($array, $search_value, $strict);
+            &#125;
+            return array_keys($array);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つarray_values関数の代替
+     * @param mixed $array
+     * @return array|null
+     */
+    public static function array_values_v2($array): ?array
+    &#123;
+        try &#123;
+            // PHP 7.3.33: nullや非配列はWarning → PHP 8+: TypeError
+            if (is_null($array) || !is_array($array)) &#123;
+                return null;
+            &#125;
+            return array_values($array);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つin_array関数の代替
+     * @param mixed $needle
+     * @param mixed $haystack
+     * @param bool $strict
+     * @return bool|null
+     */
+    public static function in_array_v2($needle, $haystack, bool $strict = false): ?bool
+    &#123;
+        try &#123;
+            // PHP 7.3.33: nullや非配列はWarning → PHP 8+: TypeError
+            if (is_null($haystack) || !is_array($haystack)) &#123;
+                return null;
+            &#125;
+            return in_array($needle, $haystack, $strict);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つarray_key_exists関数の代替
+     * @param mixed $key
+     * @param mixed $array
+     * @return bool|null
+     */
+    public static function array_key_exists_v2($key, $array): ?bool
+    &#123;
+        try &#123;
+            // PHP 7.3.33: nullや非配列はWarning → PHP 8+: TypeError
+            if (!is_array($array) &amp;&amp; !is_object($array)) &#123;
+                return null;
+            &#125;
+
+            // キーが配列やオブジェクトの場合
+            if (is_array($key) || is_object($key)) &#123;
+                return false;
+            &#125;
+            return array_key_exists($key, $array);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つjson_decode関数の代替
+     * PHP 8+で非文字列を渡した際に発生するTypeErrorを抑制し、PHP 7.3の挙動をエミュレートします。
+     * @param mixed $json デコード対象のJSON文字列。
+     * @param bool|null $assoc trueの場合、返されるオブジェクトは連想配列に変換されます。
+     * @param int $depth 再帰の深さ。
+     * @param int $flags JSONデコード時のオプションを指定するビットマスク。
+     * @return mixed デコードされた値を返します。エラー時や互換性のない型の場合はnullを返すことがあります。
+     */
+    public static function json_decode_v2($json, ?bool $assoc = null, int $depth = 512, int $flags = 0)
+    &#123;
+        try &#123;
+            // PHP 8+ではTypeErrorが発生する非文字列型を、PHP 7.3の挙動に基づき事前処理する
+            if (!is_string($json)) &#123;
+                if(is_bool($json))&#123;
+                    return json_decode($json, $assoc, $depth, $flags);
+                &#125;
+                // PHP 7.3では、数値や真偽値はそのまま返される
+                if (is_int($json) || is_float($json)) &#123;
+                    return $json;
+                &#125;
+                // PHP 7.3では、null、配列、オブジェクトは警告を出しつつnullを返す
+                if (is_null($json) || is_array($json) || is_object($json)) &#123;
+                    return null;
+                &#125;
+            &#125;
+            // 入力が文字列の場合、または上記以外の型の場合は、ネイティブ関数を呼び出す
+            // PHP 7.3では第二引数 $assoc にnullを渡すとfalseとして扱われるため、シグネチャの互換性は保たれる
+            return json_decode($json, $assoc, $depth, $flags);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null; // 例外発生時はnullを返す
+        &#125;
+    &#125;
+
+        /**
+     * バージョン7.3.33のPHPでも互換性を持つ mb_strlen 関数の代替
+     * @param mixed $string
+     * @param string|null $encoding
+     * @return int|null
+     */
+    public static function mb_strlen_v2($string = &quot;&quot;, ?string $encoding = null): ?int
+    &#123;
+        try &#123;
+            if (is_object($string) || is_array($string)) &#123;
+                return null; // PHP 7.3.33 の動作を模倣
+            &#125;
+            if (is_null($string)) &#123;
+                return 0; // PHP 7.3.33 の動作を模倣
+            &#125;
+            $encoding = $encoding ?? mb_internal_encoding();
+            return mb_strlen($string, $encoding);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つ mb_substr 関数の代替
+     * @param mixed $string
+     * @param int $offset
+     * @param int|null $length
+     * @param string|null $encoding
+     * @return string|null
+     */
+    public static function mb_substr_v2($string, int $offset, ?int $length = null, ?string $encoding = null): ?string
+    &#123;
+        try &#123;
+            if (is_array($string) || is_object($string)) &#123;
+                return null; // PHP 7.3.33 と同じ
+            &#125;
+            if(is_null($string))&#123;
+                return &quot;&quot;;
+            &#125;
+            $encoding = $encoding ?? mb_internal_encoding();
+            // boolやnullは文字列にキャストして処理する
+            return mb_substr($string, $offset, $length, $encoding);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+    /**
+     * バージョン7.3.33 のPHPでも互換性を持つ mb_strpos 関数の代替
+     * @param mixed $haystack
+     * @param mixed $needle
+     * @param int $offset
+     * @param string|null $encoding
+     * @return bool|int|null
+     */
+    public static function mb_strpos_v2($haystack, $needle, int $offset = 0, ?string $encoding = null): int|bool|null
+    &#123;
+        try &#123;
+            if (is_array($haystack) || is_object($haystack)) &#123;
+                return null;
+            &#125;
+            if (is_null($haystack)) &#123;
+                return false;
+            &#125;
+            $encoding = $encoding ?? mb_internal_encoding();
+            return mb_strpos($haystack, $needle, $offset, $encoding);
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return false;
+        &#125;
+    &#125;
+
+
+        /**
+     * バージョン7.3.33のPHPでも互換性を持つ explode 関数の代替
+     * PHP 8+で発生するTypeErrorやValueErrorを抑制し、PHP 7.3の挙動（Warningを出してnullやfalseを返す）をエミュレートします。
+     * @param mixed $separator 区切り文字。空文字列や配列などの互換性のない型を渡した場合、エラーを抑制してnullを返します。
+     * @param mixed $string 分割する文字列。null、配列、オブジェクトなどの互換性のない型を渡した場合、エラーを抑制してnullを返します。
+     * @param int $limit 分割の最大数を指定します。デフォルトはPHP_INT_MAX。
+     * @return array|null 分割された文字列の配列。エラー時や互換性のない型の場合はnullを返します。
+     */
+    public static function explode_v2(mixed $separator, mixed $string, int $limit = PHP_INT_MAX): ?array
+    &#123;
+        try &#123;
+            // PHP 8+ではTypeErrorやValueErrorが発生するケースを事前チェック
+
+            // 1. 区切り文字($separator)のチェック
+            // PHP 7.3では空文字列でWarning + false。PHP 8+ではValueError。
+            // また、配列やオブジェクトはPHP 8+でTypeErrorの原因となる。
+            if (is_array($separator) || is_object($separator)) &#123;
+                return null;
+            &#125;
+            // bool, null, 数値などを安全に文字列化する
+            $separator_str = (string)$separator;
+            if ($separator_str === &#39;&#39;) &#123;
+                // v2の設計思想に沿ってnullを返す
+                return null;
+            &#125;
+
+            // 2. 分割対象文字列($string)のチェック
+            // PHP 7.3ではnull, 配列, オブジェクトでWarning + nullを返す。PHP 8+ではTypeError。
+            if (is_null($string) || is_array($string) || is_object($string)) &#123;
+                return null;
+            &#125;
+
+            // ネイティブ関数を呼び出す。boolや数値は(string)でキャストされる。
+            return explode($separator_str, (string)$string, $limit);
+
+        &#125; catch (\Throwable $th) &#123;
+            self::writeErrorLog($th);
+            return null; // 例外発生時はnullを返す
+        &#125;
+    &#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/08/24/php/wrapper_functions/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
+    
+    <span class="current">1</span>
+    
+    
+    
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="https://static-argvchs.netlify.app/images/avatar.jpg" alt="avatar" />
+        </div>
+        <div class="name">John Doe</div>
+        <div class="description">
+            <p>Here’s an argvchs…</p>
+
+        </div>
+        
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://github.com/argvchs">
+                    <i
+                        class="fa-brands fa-github fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="http://wpa.qq.com/msgrd?v=3&uin=3364555156&site=qq&menu=yes">
+                    <i
+                        class="fa-brands fa-qq fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://twitter.com/argvchs">
+                    <i
+                        class="fa-brands fa-twitter fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a href="mailto:argvchs@outlook.com">
+                    <i
+                        class="fa-solid fa-envelope fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+        </div>
+        
+        
+        <div class="friend-links">
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://blog.yuzi.dev">Yuzi</a>
+            </div>
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://lynxcatthethird.github.io">LynxCatTheThird</a>
+            </div>
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://shanlunjiajian.github.io">ShanLunjiaJian</a>
+            </div>
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://rickyxrc.cc">Rickyxrc</a>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Hexo
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;John Doe
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script>
+        console.log("Welcome to Argvchs' blog!");
+        if (!window.hasOwnProperty("ontouchstart")) {
+            let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+            document.body.append(document.createRange().createContextualFragment(html));
+        }
+    </script>
+    
+</body>
+</html>

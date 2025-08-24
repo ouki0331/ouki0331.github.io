@@ -1,0 +1,1191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title> | Hexo</title>
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="https://static-argvchs.netlify.app/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/css/main.css" />
+<link rel="preconnect" href="https://static-argvchs.netlify.app" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>HEXO</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;HEXO</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1></h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/24
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <hr>
+<h2 id="title-ラッパー関数テストケースdate-2025-08-24-14-54-02tags-”php”"><a href="#title-ラッパー関数テストケースdate-2025-08-24-14-54-02tags-”php”" class="headerlink" title="title: ラッパー関数テストケースdate: 2025-08-24 14:54:02tags:”php”"></a>title: ラッパー関数テストケース<br>date: 2025-08-24 14:54:02<br>tags:”php”</h2><h1 id="ラッパー関数の使用方法"><a href="#ラッパー関数の使用方法" class="headerlink" title="ラッパー関数の使用方法"></a>ラッパー関数の使用方法</h1><p>ラッパー関数のクラスは既に<code>V2</code>環境に導入しました。今の<code>V２</code>環境に稼働している全てシステムは何も導入せずにそのまま使えます。</p>
+<h2 id="ロカール事前準備"><a href="#ロカール事前準備" class="headerlink" title="ロカール事前準備:"></a>ロカール事前準備:</h2><ul>
+<li><code>zentaku-env-v2</code>をプールして、</li>
+<li><code>docker-compose.yml</code>の<code>zentaku-php-v2p</code>の<code>volumes</code>に<code>- ./php/conf/ZentakuV2Functions.php:/usr/share/php/ZentakuV2Functions.php</code>と追加します</li>
+<li><code>docker compose down</code> と<code>docker compose up -d</code>　実行します。</li>
+</ul>
+<pre><code class="language-bash">cd C:/workspace/zentaku2/zentaku-env-v2
+git pull
+docker compose down
+docker compose up -d
+</code></pre>
+<h2 id="実装した関数の切り替え-例"><a href="#実装した関数の切り替え-例" class="headerlink" title="実装した関数の切り替え,例"></a>実装した関数の切り替え,例</h2><p><code>strlen(</code> -&gt; <code>\App\Library\ZentakuV2Functions::strlen_v2(</code><br><code>substr(</code> -&gt; <code>\App\Library\ZentakuV2Functions::substr_v2(</code><br><code>strpos(</code> -&gt; <code>\App\Library\ZentakuV2Functions::strpos_v2(</code><br><code>str_replace(</code> -&gt; <code>\App\Library\ZentakuV2Functions::str_replace_v2(</code><br><code>implode(</code> -&gt; <code>\App\Library\ZentakuV2Functions::implode_v2(</code></p>
+<p><code>array_merge(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_merge_v2(</code><br><code>array_keys(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_keys_v2(</code><br><code>array_values(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_values_v2(</code><br><code>in_array(</code> -&gt; <code>\App\Library\ZentakuV2Functions::in_array_v2(</code><br><code>array_key_exists(</code> -&gt; <code>\App\Library\ZentakuV2Functions::array_key_exists_v2(</code></p>
+<p><code>json_decode(</code> -&gt; <code>\App\Library\ZentakuV2Functions::json_decode_v2(</code></p>
+<p><code>mb_substr(</code> -&gt; <code>\App\Library\ZentakuV2Functions::mb_substr_v2(</code><br><code>mb_strpos(</code> -&gt; <code>\App\Library\ZentakuV2Functions::mb_strpos_v2(</code><br><code>explode(</code> -&gt; <code>\App\Library\ZentakuV2Functions::explode_v2(</code></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li><font style="color:red">count()関数は汎用過ぎるので,grepでそのまま切り替えは危険です。例えば、postgresqlとphalconの固有関数にcountがあり、直接切り替えるとsqlが正しく動けない可能性があります。その故、一つ一つチェックしてください。</font></li>
+<li>実装していない挙動が変わった標準関数はあるはず、追加したい場合は<code>/workspace/zentaku2/zentaku-env-v2/php/conf/ZentakuV2Functions.php</code>に追加してください。実装したら、みんなにお知らせください。</li>
+</ul>
+<h2 id="事前調査"><a href="#事前調査" class="headerlink" title="事前調査"></a>事前調査</h2><ul>
+<li>ラッパー関数のクラスのロードタイミング:<br>以下のコードをindex.phpに書いて、実行とします。<pre><code>&lt;?php
+declare(strict_types=1);
+var_dump(\App\Library\ZentakuV2Functions::strlen_v2(&quot;99&quot;));exit;
+use Phalcon\Di\FactoryDefault;
+</code></pre>
+  画面は<code>int(2)</code>が出力されました。つまり、<code>index.php</code>実行する最初に<code>\App\Library\ZentakuV2Functions</code>がロードされたことを示しています。</li>
+<li>vscodeに赤い波線が表示しない設定<br><code>\.vscode\setting.json</code>に以下のコードを追加します。(自分のパスに切り替えてください)<pre><code>    &quot;intelephense.environment.includePaths&quot;: [
+    &quot;/home/ouki/workspace/zentaku2/zentaku-env-v2/php/conf&quot;
+],
+</code></pre>
+</li>
+</ul>
+<h2 id="標準関数とラッパー関数の出力比較、例"><a href="#標準関数とラッパー関数の出力比較、例" class="headerlink" title="標準関数とラッパー関数の出力比較、例"></a>標準関数とラッパー関数の出力比較、例</h2><blockquote>
+<p>以下のコードをコーヒーして<a target="_blank" rel="noopener" href="https://onlinephp.io/">PHPSandBox</a> で確認ができます</p>
+</blockquote>
+<h3 id="strlen-vs-strlen-v2"><a href="#strlen-vs-strlen-v2" class="headerlink" title="strlen vs strlen_v2"></a>strlen vs strlen_v2</h3><table>
+<thead>
+<tr>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var_dump(strlen(null));</td>
+<td>var_dump(strlen_v2(null));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(“”));</td>
+<td>var_dump(strlen_v2(“”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(“hello”));</td>
+<td>var_dump(strlen_v2(“hello”));</td>
+<td>int(5)</td>
+<td>int(5)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(123));</td>
+<td>var_dump(strlen_v2(123));</td>
+<td>int(3)</td>
+<td>int(3)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(3.14));</td>
+<td>var_dump(strlen_v2(3.14));</td>
+<td>int(4)</td>
+<td>int(4)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(true));</td>
+<td>var_dump(strlen_v2(true));</td>
+<td>int(1)</td>
+<td>int(1)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(false));</td>
+<td>var_dump(strlen_v2(false));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strlen([]));</td>
+<td>var_dump(strlen_v2([]));</td>
+<td>Warning: strlen() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 10<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strlen([1, 2, 3]));</td>
+<td>var_dump(strlen_v2([1, 2, 3]));</td>
+<td>Warning: strlen() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 11<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strlen(new stdClass()));</td>
+<td>var_dump(strlen_v2(new stdClass()));</td>
+<td>Warning: strlen() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 12<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strlen(0));</td>
+<td>var_dump(strlen_v2(0));</td>
+<td>int(1)</td>
+<td>int(1)</td>
+</tr>
+<tr>
+<td>var_dump(strlen(-456));</td>
+<td>var_dump(strlen_v2(-456));</td>
+<td>int(4)</td>
+<td>int(4)</td>
+</tr>
+</tbody></table>
+<h3 id="substr-vs-substr-v2"><a href="#substr-vs-substr-v2" class="headerlink" title="substr vs substr_v2"></a>substr vs substr_v2</h3><table>
+<thead>
+<tr>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var_dump(substr(null, 0));</td>
+<td>var_dump(substr_v2(null, 0));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(null, 1));</td>
+<td>var_dump(substr_v2(null, 1));</td>
+<td>bool(false)</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(null, -1));</td>
+<td>var_dump(substr_v2(null, -1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“”, 0));</td>
+<td>var_dump(substr_v2(“”, 0));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“”, 1));</td>
+<td>var_dump(substr_v2(“”, 1));</td>
+<td>bool(false)</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“”, -1));</td>
+<td>var_dump(substr_v2(“”, -1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 0));</td>
+<td>var_dump(substr_v2(“hello”, 0));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 1));</td>
+<td>var_dump(substr_v2(“hello”, 1));</td>
+<td>string(4) “ello”</td>
+<td>string(4) “ello”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, -1));</td>
+<td>var_dump(substr_v2(“hello”, -1));</td>
+<td>string(1) “o”</td>
+<td>string(1) “o”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 0, 3));</td>
+<td>var_dump(substr_v2(“hello”, 0, 3));</td>
+<td>string(3) “hel”</td>
+<td>string(3) “hel”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, 1, 3));</td>
+<td>var_dump(substr_v2(“hello”, 1, 3));</td>
+<td>string(3) “ell”</td>
+<td>string(3) “ell”</td>
+</tr>
+<tr>
+<td>var_dump(substr(“hello”, -2, 1));</td>
+<td>var_dump(substr_v2(“hello”, -2, 1));</td>
+<td>string(1) “l”</td>
+<td>string(1) “l”</td>
+</tr>
+<tr>
+<td>var_dump(substr(123, 0));</td>
+<td>var_dump(substr_v2(123, 0));</td>
+<td>string(3) “123”</td>
+<td>string(3) “123”</td>
+</tr>
+<tr>
+<td>var_dump(substr(123, 1));</td>
+<td>var_dump(substr_v2(123, 1));</td>
+<td>string(2) “23”</td>
+<td>string(2) “23”</td>
+</tr>
+<tr>
+<td>var_dump(substr(123, -1));</td>
+<td>var_dump(substr_v2(123, -1));</td>
+<td>string(1) “3”</td>
+<td>string(1) “3”</td>
+</tr>
+<tr>
+<td>var_dump(substr(3.14, 0));</td>
+<td>var_dump(substr_v2(3.14, 0));</td>
+<td>string(4) “3.14”</td>
+<td>string(4) “3.14”</td>
+</tr>
+<tr>
+<td>var_dump(substr(3.14, 1));</td>
+<td>var_dump(substr_v2(3.14, 1));</td>
+<td>string(3) “.14”</td>
+<td>string(3) “.14”</td>
+</tr>
+<tr>
+<td>var_dump(substr(3.14, -1));</td>
+<td>var_dump(substr_v2(3.14, -1));</td>
+<td>string(1) “4”</td>
+<td>string(1) “4”</td>
+</tr>
+<tr>
+<td>var_dump(substr(true, 0));</td>
+<td>var_dump(substr_v2(true, 0));</td>
+<td>string(1) “1”</td>
+<td>string(1) “1”</td>
+</tr>
+<tr>
+<td>var_dump(substr(true, 1));</td>
+<td>var_dump(substr_v2(true, 1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(false, 0));</td>
+<td>var_dump(substr_v2(false, 0));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(false, 1));</td>
+<td>var_dump(substr_v2(false, 1));</td>
+<td>bool(false)</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr([], 0));</td>
+<td>var_dump(substr_v2([], 0));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 25<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr([], 1));</td>
+<td>var_dump(substr_v2([], 1));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 26<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr([1, 2, 3], 0));</td>
+<td>var_dump(substr_v2([1, 2, 3], 0));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 27<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr([1, 2, 3], 1));</td>
+<td>var_dump(substr_v2([1, 2, 3], 1));</td>
+<td>Warning: substr() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 28<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr(new stdClass(), 0));</td>
+<td>var_dump(substr_v2(new stdClass(), 0));</td>
+<td>Warning: substr() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 29<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr(new stdClass(), 1));</td>
+<td>var_dump(substr_v2(new stdClass(), 1));</td>
+<td>Warning: substr() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 30<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(substr(0, 0));</td>
+<td>var_dump(substr_v2(0, 0));</td>
+<td>string(1) “0”</td>
+<td>string(1) “0”</td>
+</tr>
+<tr>
+<td>var_dump(substr(0, 1));</td>
+<td>var_dump(substr_v2(0, 1));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>var_dump(substr(-456, 0));</td>
+<td>var_dump(substr_v2(-456, 0));</td>
+<td>string(4) “-456”</td>
+<td>string(4) “-456”</td>
+</tr>
+<tr>
+<td>var_dump(substr(-456, 1));</td>
+<td>var_dump(substr_v2(-456, 1));</td>
+<td>string(3) “456”</td>
+<td>string(3) “456”</td>
+</tr>
+<tr>
+<td>var_dump(substr(-456, -1));</td>
+<td>var_dump(substr_v2(-456, -1));</td>
+<td>string(1) “6”</td>
+<td>string(1) “6”</td>
+</tr>
+</tbody></table>
+<h3 id="strpos-vs-strpos-v2"><a href="#strpos-vs-strpos-v2" class="headerlink" title="strpos vs strpos_v2"></a>strpos vs strpos_v2</h3><table>
+<thead>
+<tr>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var_dump(strpos(“hello world”, “world”));</td>
+<td>var_dump(strpos_v2(“hello world”, “world”));</td>
+<td>int(6)</td>
+<td>int(6)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “hello”));</td>
+<td>var_dump(strpos_v2(“hello world”, “hello”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “o”));</td>
+<td>var_dump(strpos_v2(“hello world”, “o”));</td>
+<td>int(4)</td>
+<td>int(4)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “xyz”));</td>
+<td>var_dump(strpos_v2(“hello world”, “xyz”));</td>
+<td>bool(false)</td>
+<td>bool(false)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “”));</td>
+<td>var_dump(strpos_v2(“hello world”, “”));</td>
+<td>Warning: strpos(): Empty needle in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 9<br>bool(false)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“”, “hello”));</td>
+<td>var_dump(strpos_v2(“”, “hello”));</td>
+<td>bool(false)</td>
+<td>bool(false)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“”, “”));</td>
+<td>var_dump(strpos_v2(“”, “”));</td>
+<td>Warning: strpos(): Empty needle in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 11<br>bool(false)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“hello world”, “o”, 5));</td>
+<td>var_dump(strpos_v2(“hello world”, “o”, 5));</td>
+<td>int(7)</td>
+<td>int(7)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(null, “test”));</td>
+<td>var_dump(strpos_v2(null, “test”));</td>
+<td>bool(false)</td>
+<td>bool(false)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(“test”, null));</td>
+<td>var_dump(strpos_v2(“test”, null));</td>
+<td>Deprecated: strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 14<br>bool(false)</td>
+<td>Deprecated: strpos(): Passing null to parameter #2 ($needle) of type string is deprecated in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 11<br>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(12345, “3”));</td>
+<td>var_dump(strpos_v2(12345, “3”));</td>
+<td>int(2)</td>
+<td>int(2)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(3.14, “.”));</td>
+<td>var_dump(strpos_v2(3.14, “.”));</td>
+<td>int(1)</td>
+<td>int(1)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(true, “1”));</td>
+<td>var_dump(strpos_v2(true, “1”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(false, “”));</td>
+<td>var_dump(strpos_v2(false, “”));</td>
+<td>Warning: strpos(): Empty needle in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 18<br>bool(false)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos([], “test”));</td>
+<td>var_dump(strpos_v2([], “test”));</td>
+<td>Warning: strpos() expects parameter 1 to be string, array given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 19<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strpos(new stdClass(), “test”));</td>
+<td>var_dump(strpos_v2(new stdClass(), “test”));</td>
+<td>Warning: strpos() expects parameter 1 to be string, object given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 20<br>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>var_dump(strpos(0, “0”));</td>
+<td>var_dump(strpos_v2(0, “0”));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+<tr>
+<td>var_dump(strpos(-456, “-“));</td>
+<td>var_dump(strpos_v2(-456, “-“));</td>
+<td>int(0)</td>
+<td>int(0)</td>
+</tr>
+</tbody></table>
+<pre><code class="language-php">php 7.3.33
+var_dump(strlen(null));
+var_dump(strlen(&quot;&quot;));
+var_dump(strlen(&quot;hello&quot;));
+var_dump(strlen(123));
+var_dump(strlen(3.14));
+var_dump(strlen(true));
+var_dump(strlen(false));
+var_dump(strlen([]));
+var_dump(strlen([1, 2, 3]));
+var_dump(strlen(new stdClass()));
+var_dump(strlen(0));
+var_dump(strlen(-456));
+/* 出力
+int(0)
+int(0)
+int(5)
+int(3)
+int(4)
+int(1)
+int(0)
+
+Warning: strlen() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 10
+NULL
+
+Warning: strlen() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 11
+NULL
+
+Warning: strlen() expects parameter 1 to be string, object given in /home/user/scripts/code.php on line 12
+NULL
+int(1)
+int(4)
+*/
+php 8.4.8
+
+    /**
+     * バージョン7.3.33のPHPでも互換性を持つstrlen関数の代替
+     * @param mixed $string
+     * @return int|null
+     */
+    function strlen_v2($string=&quot;&quot;)
+    &#123;
+        try&#123;
+            //php 7.3.33はnullを返す
+            if(is_object($string)||is_array($string))&#123;
+                return null;
+            &#125;
+            //php 7.3.33は0を返す
+            if(is_null($string))&#123;
+                return 0;
+            &#125; 
+            //他には文字列として処理する、整数か少数はphp 7.3.33とphp8.4.8は全く同じだ。
+            return strlen($string);
+        &#125;catch(\Throwable $th)&#123;
+            // self::writeErrorLog($th);
+            return null;
+        &#125;
+    &#125;
+
+
+var_dump(strlen_v2(null));
+var_dump(strlen_v2(&quot;&quot;));
+var_dump(strlen_v2(&quot;hello&quot;));
+var_dump(strlen_v2(123));
+var_dump(strlen_v2(3.14));
+var_dump(strlen_v2(true));
+var_dump(strlen_v2(false));
+var_dump(strlen_v2([]));
+var_dump(strlen_v2([1, 2, 3]));
+var_dump(strlen_v2(new stdClass()));
+var_dump(strlen_v2(0));
+var_dump(strlen_v2(-456));
+
+/*
+ * 出力
+int(0)
+int(0)
+int(5)
+int(3)
+int(4)
+int(1)
+int(0)
+NULL
+NULL
+NULL
+int(1)
+int(4)
+ * */
+</code></pre>
+<h3 id="substr-vs-substr-v2-1"><a href="#substr-vs-substr-v2-1" class="headerlink" title="substr vs substr_v2"></a>substr vs substr_v2</h3><pre><code class="language-php">php 7.3.3
+var_dump(substr(null, 0));
+var_dump(substr(null, 1));
+var_dump(substr(null, -1));
+var_dump(substr(&quot;&quot;, 0));
+var_dump(substr(&quot;&quot;, 1));
+var_dump(substr(&quot;&quot;, -1));
+var_dump(substr(&quot;hello&quot;, 0));
+var_dump(substr(&quot;hello&quot;, 1));
+var_dump(substr(&quot;hello&quot;, -1));
+var_dump(substr(&quot;hello&quot;, 0, 3));
+var_dump(substr(&quot;hello&quot;, 1, 3));
+var_dump(substr(&quot;hello&quot;, -2, 1));
+var_dump(substr(123, 0));
+var_dump(substr(123, 1));
+var_dump(substr(123, -1));
+var_dump(substr(3.14, 0));
+var_dump(substr(3.14, 1));
+var_dump(substr(3.14, -1));
+var_dump(substr(true, 0));
+var_dump(substr(true, 1));
+var_dump(substr(false, 0));
+var_dump(substr(false, 1));
+var_dump(substr([], 0));
+var_dump(substr([], 1));
+var_dump(substr([1, 2, 3], 0));
+var_dump(substr([1, 2, 3], 1));
+var_dump(substr(new stdClass(), 0));
+var_dump(substr(new stdClass(), 1));
+var_dump(substr(0, 0));
+var_dump(substr(0, 1));
+var_dump(substr(-456, 0));
+var_dump(substr(-456, 1));
+var_dump(substr(-456, -1));
+/*
+ * 出力
+ string(0) &quot;&quot;
+bool(false)
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+bool(false)
+string(0) &quot;&quot;
+string(5) &quot;hello&quot;
+string(4) &quot;ello&quot;
+string(1) &quot;o&quot;
+string(3) &quot;hel&quot;
+string(3) &quot;ell&quot;
+string(1) &quot;l&quot;
+string(3) &quot;123&quot;
+string(2) &quot;23&quot;
+string(1) &quot;3&quot;
+string(4) &quot;3.14&quot;
+string(3) &quot;.14&quot;
+string(1) &quot;4&quot;
+string(1) &quot;1&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+bool(false)
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 25
+NULL
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 26
+NULL
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 27
+NULL
+
+Warning: substr() expects parameter 1 to be string, array given in /home/user/scripts/code.php on line 28
+NULL
+
+Warning: substr() expects parameter 1 to be string, object given in /home/user/scripts/code.php on line 29
+NULL
+
+Warning: substr() expects parameter 1 to be string, object given in /home/user/scripts/code.php on line 30
+NULL
+string(1) &quot;0&quot;
+string(0) &quot;&quot;
+string(4) &quot;-456&quot;
+string(3) &quot;456&quot;
+string(1) &quot;6&quot;
+ */
+
+
+php 8.4.8
+var_dump(substr_v2(null, 0));
+var_dump(substr_v2(null, 1));
+var_dump(substr_v2(null, -1));
+var_dump(substr_v2(&quot;&quot;, 0));
+var_dump(substr_v2(&quot;&quot;, 1));
+var_dump(substr_v2(&quot;&quot;, -1));
+var_dump(substr_v2(&quot;hello&quot;, 0));
+var_dump(substr_v2(&quot;hello&quot;, 1));
+var_dump(substr_v2(&quot;hello&quot;, -1));
+var_dump(substr_v2(&quot;hello&quot;, 0, 3));
+var_dump(substr_v2(&quot;hello&quot;, 1, 3));
+var_dump(substr_v2(&quot;hello&quot;, -2, 1));
+var_dump(substr_v2(123, 0));
+var_dump(substr_v2(123, 1));
+var_dump(substr_v2(123, -1));
+var_dump(substr_v2(3.14, 0));
+var_dump(substr_v2(3.14, 1));
+var_dump(substr_v2(3.14, -1));
+var_dump(substr_v2(true, 0));
+var_dump(substr_v2(true, 1));
+var_dump(substr_v2(false, 0));
+var_dump(substr_v2(false, 1));
+var_dump(substr_v2([], 0));
+var_dump(substr_v2([], 1));
+var_dump(substr_v2([1, 2, 3], 0));
+var_dump(substr_v2([1, 2, 3], 1));
+var_dump(substr_v2(new stdClass(), 0));
+var_dump(substr_v2(new stdClass(), 1));
+var_dump(substr_v2(0, 0));
+var_dump(substr_v2(0, 1));
+var_dump(substr_v2(-456, 0));
+var_dump(substr_v2(-456, 1));
+var_dump(substr_v2(-456, -1));
+/*
+ string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(5) &quot;hello&quot;
+string(4) &quot;ello&quot;
+string(1) &quot;o&quot;
+string(3) &quot;hel&quot;
+string(3) &quot;ell&quot;
+string(1) &quot;l&quot;
+string(3) &quot;123&quot;
+string(2) &quot;23&quot;
+string(1) &quot;3&quot;
+string(4) &quot;3.14&quot;
+string(3) &quot;.14&quot;
+string(1) &quot;4&quot;
+string(1) &quot;1&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+string(0) &quot;&quot;
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+string(1) &quot;0&quot;
+string(0) &quot;&quot;
+string(4) &quot;-456&quot;
+string(3) &quot;456&quot;
+string(1) &quot;6&quot;
+ * /
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>PHP7.3.33 コード</th>
+<th>PHP8.4.8 コード</th>
+<th>PHP7.3.33 結果</th>
+<th>PHP8.4.8 結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>echo ‘line-1 :’; var_dump(str_replace(null, “x”, “hello”));</td>
+<td>echo ‘line-1 :’; var_dump(str_replace_v2(null, “x”, “hello”));</td>
+<td>string(5) “line-1 :string(5) “hello”</td>
+<td>&lt;<DIFF>&gt; string(5) “hello”</td>
+</tr>
+<tr>
+<td>2</td>
+<td>echo ‘line-2 :’; var_dump(str_replace(“”, “x”, “hello”));</td>
+<td>echo ‘line-2 :’; var_dump(str_replace_v2(“”, “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>3</td>
+<td>echo ‘line-3 :’; var_dump(str_replace(“l”, null, “hello”));</td>
+<td>echo ‘line-3 :’; var_dump(str_replace_v2(“l”, null, “hello”));</td>
+<td>string(3) “heo”</td>
+<td>string(3) “heo”</td>
+</tr>
+<tr>
+<td>4</td>
+<td>echo ‘line-4 :’; var_dump(str_replace(“l”, “”, “hello”));</td>
+<td>echo ‘line-4 :’; var_dump(str_replace_v2(“l”, “”, “hello”));</td>
+<td>string(3) “heo”</td>
+<td>string(3) “heo”</td>
+</tr>
+<tr>
+<td>5</td>
+<td>echo ‘line-5 :’; var_dump(str_replace(“l”, “x”, null));</td>
+<td>echo ‘line-5 :’; var_dump(str_replace_v2(“l”, “x”, null));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>6</td>
+<td>echo ‘line-6 :’; var_dump(str_replace(“l”, “x”, “”));</td>
+<td>echo ‘line-6 :’; var_dump(str_replace_v2(“l”, “x”, “”));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>7</td>
+<td>echo ‘line-7 :’; var_dump(str_replace(“l”, “x”, “hello”));</td>
+<td>echo ‘line-7 :’; var_dump(str_replace_v2(“l”, “x”, “hello”));</td>
+<td>string(5) “hexxo”</td>
+<td>string(5) “hexxo”</td>
+</tr>
+<tr>
+<td>8</td>
+<td>echo ‘line-8 :’; var_dump(str_replace(“ll”, “x”, “hello”));</td>
+<td>echo ‘line-8 :’; var_dump(str_replace_v2(“ll”, “x”, “hello”));</td>
+<td>string(4) “hexo”</td>
+<td>string(4) “hexo”</td>
+</tr>
+<tr>
+<td>9</td>
+<td>echo ‘line-9 :’; var_dump(str_replace(“o”, “x”, “hello”));</td>
+<td>echo ‘line-9 :’; var_dump(str_replace_v2(“o”, “x”, “hello”));</td>
+<td>string(5) “hellx”</td>
+<td>string(5) “hellx”</td>
+</tr>
+<tr>
+<td>10</td>
+<td>echo ‘line-10 :’; var_dump(str_replace(“hello”, “x”, “hello”));</td>
+<td>echo ‘line-10 :’; var_dump(str_replace_v2(“hello”, “x”, “hello”));</td>
+<td>string(1) “x”</td>
+<td>string(1) “x”</td>
+</tr>
+<tr>
+<td>11</td>
+<td>echo ‘line-11 :’; var_dump(str_replace(“z”, “x”, “hello”));</td>
+<td>echo ‘line-11 :’; var_dump(str_replace_v2(“z”, “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>12</td>
+<td>echo ‘line-12 :’; var_dump(str_replace(“”, “x”, “hello”));</td>
+<td>echo ‘line-12 :’; var_dump(str_replace_v2(“”, “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>13</td>
+<td>echo ‘line-13 :’; var_dump(str_replace(“l”, “”, “hello”));</td>
+<td>echo ‘line-13 :’; var_dump(str_replace_v2(“l”, “”, “hello”));</td>
+<td>string(3) “heo”</td>
+<td>string(3) “heo”</td>
+</tr>
+<tr>
+<td>14</td>
+<td>echo ‘line-14 :’; var_dump(str_replace([“l”, “o”], “x”, “hello”));</td>
+<td>echo ‘line-14 :’; var_dump(str_replace_v2([“l”, “o”], “x”, “hello”));</td>
+<td>string(5) “hexxx”</td>
+<td>string(5) “hexxx”</td>
+</tr>
+<tr>
+<td>15</td>
+<td>echo ‘line-15 :’; var_dump(str_replace([“l”, “o”], [“x”, “y”], “hello”));</td>
+<td>echo ‘line-15 :’; var_dump(str_replace_v2([“l”, “o”], [“x”, “y”], “hello”));</td>
+<td>string(5) “hexxy”</td>
+<td>string(5) “hexxy”</td>
+</tr>
+<tr>
+<td>16</td>
+<td>echo ‘line-16 :’; var_dump(str_replace([“l”, “o”], [“x”], “hello”));</td>
+<td>echo ‘line-16 :’; var_dump(str_replace_v2([“l”, “o”], [“x”], “hello”));</td>
+<td>string(4) “hexx”</td>
+<td>string(4) “hexx”</td>
+</tr>
+<tr>
+<td>17</td>
+<td>echo ‘line-17 :’; var_dump(str_replace(“l”, [“x”, “y”], “hello”));</td>
+<td>echo ‘line-17 :’; var_dump(str_replace_v2(“l”, [“x”, “y”], “hello”));</td>
+<td>Notice: Array to string conversion in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 21<br>string(13) “heArrayArrayo”</td>
+<td>&lt;<DIFF>&gt; Fatal error: Uncaught TypeError: str_replace(): Argument #2 ($replace) must be of type string when argument #1 ($search) is a string in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php:12<br>Stack trace:<br>#0 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(12): str_replace(‘l’, Array, ‘hello’, NULL)<br>#1 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(31): str_replace_v2(‘l’, Array, ‘hello’)<br>#2 {main}<br>  thrown in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 12</td>
+</tr>
+<tr>
+<td>18</td>
+<td>echo ‘line-18 :’; var_dump(str_replace(“l”, “x”, [“hello”, “world”]));</td>
+<td>echo ‘line-18 :’; var_dump(str_replace_v2(“l”, “x”, [“hello”, “world”]));</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxo”<br>  [1]&#x3D;&gt;<br>  string(5) “worxd”<br>}</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxo”<br>  [1]&#x3D;&gt;<br>  string(5) “worxd”<br>}</td>
+</tr>
+<tr>
+<td>19</td>
+<td>echo ‘line-19 :’; var_dump(str_replace([“l”, “o”], “x”, [“hello”, “world”]));</td>
+<td>echo ‘line-19 :’; var_dump(str_replace_v2([“l”, “o”], “x”, [“hello”, “world”]));</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxx”<br>  [1]&#x3D;&gt;<br>  string(5) “wxrxd”<br>}</td>
+<td>array(2) {<br>  [0]&#x3D;&gt;<br>  string(5) “hexxx”<br>  [1]&#x3D;&gt;<br>  string(5) “wxrxd”<br>}</td>
+</tr>
+<tr>
+<td>20</td>
+<td>echo ‘line-20 :’; var_dump(str_replace(123, “x”, “hello123”));</td>
+<td>echo ‘line-20 :’; var_dump(str_replace_v2(123, “x”, “hello123”));</td>
+<td>string(6) “hellox”</td>
+<td>string(6) “hellox”</td>
+</tr>
+<tr>
+<td>21</td>
+<td>echo ‘line-21 :’; var_dump(str_replace(“2”, 9, “hello123”));</td>
+<td>echo ‘line-21 :’; var_dump(str_replace_v2(“2”, 9, “hello123”));</td>
+<td>string(8) “hello193”</td>
+<td>string(8) “hello193”</td>
+</tr>
+<tr>
+<td>22</td>
+<td>echo ‘line-22 :’; var_dump(str_replace(“2”, “x”, 123));</td>
+<td>echo ‘line-22 :’; var_dump(str_replace_v2(“2”, “x”, 123));</td>
+<td>string(3) “1x3”</td>
+<td>string(3) “1x3”</td>
+</tr>
+<tr>
+<td>23</td>
+<td>echo ‘line-23 :’; var_dump(str_replace(3.14, “x”, “test3.14”));</td>
+<td>echo ‘line-23 :’; var_dump(str_replace_v2(3.14, “x”, “test3.14”));</td>
+<td>string(5) “testx”</td>
+<td>string(5) “testx”</td>
+</tr>
+<tr>
+<td>24</td>
+<td>echo ‘line-24 :’; var_dump(str_replace(“.”, “x”, 3.14));</td>
+<td>echo ‘line-24 :’; var_dump(str_replace_v2(“.”, “x”, 3.14));</td>
+<td>string(4) “3x14”</td>
+<td>string(4) “3x14”</td>
+</tr>
+<tr>
+<td>25</td>
+<td>echo ‘line-25 :’; var_dump(str_replace(“1”, “x”, 3.14));</td>
+<td>echo ‘line-25 :’; var_dump(str_replace_v2(“1”, “x”, 3.14));</td>
+<td>string(4) “3.x4”</td>
+<td>string(4) “3.x4”</td>
+</tr>
+<tr>
+<td>26</td>
+<td>echo ‘line-26 :’; var_dump(str_replace(true, “x”, “true1”));</td>
+<td>echo ‘line-26 :’; var_dump(str_replace_v2(true, “x”, “true1”));</td>
+<td>string(5) “truex”</td>
+<td>string(5) “truex”</td>
+</tr>
+<tr>
+<td>27</td>
+<td>echo ‘line-27 :’; var_dump(str_replace(“1”, “x”, true));</td>
+<td>echo ‘line-27 :’; var_dump(str_replace_v2(“1”, “x”, true));</td>
+<td>string(1) “x”</td>
+<td>string(1) “x”</td>
+</tr>
+<tr>
+<td>28</td>
+<td>echo ‘line-28 :’; var_dump(str_replace(false, “x”, “false”));</td>
+<td>echo ‘line-28 :’; var_dump(str_replace_v2(false, “x”, “false”));</td>
+<td>string(5) “false”</td>
+<td>string(5) “false”</td>
+</tr>
+<tr>
+<td>29</td>
+<td>echo ‘line-29 :’; var_dump(str_replace(“”, “x”, false));</td>
+<td>echo ‘line-29 :’; var_dump(str_replace_v2(“”, “x”, false));</td>
+<td>string(0) “”</td>
+<td>string(0) “”</td>
+</tr>
+<tr>
+<td>30</td>
+<td>echo ‘line-30 :’; var_dump(str_replace([], “x”, “hello”));</td>
+<td>echo ‘line-30 :’; var_dump(str_replace_v2([], “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>31</td>
+<td>echo ‘line-31 :’; var_dump(str_replace(“l”, “x”, []));</td>
+<td>echo ‘line-31 :’; var_dump(str_replace_v2(“l”, “x”, []));</td>
+<td>array(0) {<br>}</td>
+<td>array(0) {<br>}</td>
+</tr>
+<tr>
+<td>32</td>
+<td>echo ‘line-32 :’; var_dump(str_replace([1, 2], “x”, “hello”));</td>
+<td>echo ‘line-32 :’; var_dump(str_replace_v2([1, 2], “x”, “hello”));</td>
+<td>string(5) “hello”</td>
+<td>string(5) “hello”</td>
+</tr>
+<tr>
+<td>33</td>
+<td>echo ‘line-33 :’; var_dump(str_replace(“l”, “x”, [1, 2, 3]));</td>
+<td>echo ‘line-33 :’; var_dump(str_replace_v2(“l”, “x”, [1, 2, 3]));</td>
+<td>array(3) {<br>  [0]&#x3D;&gt;<br>  string(1) “1”<br>  [1]&#x3D;&gt;<br>  string(1) “2”<br>  [2]&#x3D;&gt;<br>  string(1) “3”<br>}</td>
+<td>array(3) {<br>  [0]&#x3D;&gt;<br>  string(1) “1”<br>  [1]&#x3D;&gt;<br>  string(1) “2”<br>  [2]&#x3D;&gt;<br>  string(1) “3”<br>}</td>
+</tr>
+<tr>
+<td>34</td>
+<td>echo ‘line-34 :’; var_dump(str_replace(new stdClass(), “x”, “hello”));</td>
+<td>echo ‘line-34 :’; var_dump(str_replace_v2(new stdClass(), “x”, “hello”));</td>
+<td>Recoverable fatal error: Object of class stdClass could not be converted to string in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 38</td>
+<td>&lt;<DIFF>&gt; Fatal error: Uncaught TypeError: str_replace(): Argument #1 ($search) must be of type array|string, stdClass given in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php:12<br>Stack trace:<br>#0 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(12): str_replace(Object(stdClass), ‘x’, ‘hello’, NULL)<br>#1 &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php(48): str_replace_v2(Object(stdClass), ‘x’, ‘hello’)<br>#2 {main}<br>  thrown in &#x2F;home&#x2F;user&#x2F;scripts&#x2F;code.php on line 12</td>
+</tr>
+</tbody></table>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Hexo
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;John Doe
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script>
+        console.log("Welcome to Argvchs' blog!");
+        if (!window.hasOwnProperty("ontouchstart")) {
+            let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+            document.body.append(document.createRange().createContextualFragment(html));
+        }
+    </script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="argvchs/giscus-comments"
+    data-repo-id="R_kgDOI_uC-w"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOI_uC-84CUToF"
+    data-mapping="pathname"
+    data-strict="1"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="https://static-argvchs.netlify.app/css/giscus.css"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+</body>
+</html>
