@@ -1,0 +1,830 @@
+
+<!DOCTYPE html>
+<html lang="ja,en,default">
+<head>
+    <meta charset="utf-8" />
+    <title>AWS WAF SQLインジェクション検証ガイド：攻撃分類・入力経路・安全なテスト | ouki0331 技術ブログ</title>
+    <meta name="author" content="ouki0331" />
+    <meta name="description" content="AWS、PHP、Web開発に関する技術メモと運用手順" />
+    <meta name="keywords" content="AWS, WAF, PHP, Web Development" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="https://github.com/ouki0331.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/css/main.css" />
+<link rel="preconnect" href="https://static-argvchs.netlify.app" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>読み込みに時間がかかる場合は、ブラウザーのキャッシュ設定を確認してください。</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>OUKI0331 技術ブログ</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;ホーム / Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;このブログについて / About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;アーカイブ / Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;カテゴリー / Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;タグ / Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;OUKI0331 技術ブログ</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">ホーム / Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">このブログについて / About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">アーカイブ / Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">カテゴリー / Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">タグ / Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>AWS WAF SQLインジェクション検証ガイド：攻撃分類・入力経路・安全なテスト</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/10/24
+        </span>
+        
+        <span class="category">
+            <a href="/categories/AWS/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                AWS
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/AWS-WAF/" style="color: #00a596">
+                    AWS WAF
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/SQL-Injection/" style="color: #00bcd4">
+                    SQL Injection
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/WAF%E3%83%86%E3%82%B9%E3%83%88/" style="color: #ff7d73">
+                    WAFテスト
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/CloudWatch-Logs-Insights/" style="color: #ffa2c4">
+                    CloudWatch Logs Insights
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h1><p>SQLインジェクション（SQLi）は、単純なシングルクォートだけで分類できる攻撃ではありません。文字列、数値、検索条件、並び順など、入力がSQL文のどこへ入るかによって構文が変わり、結果の受け取り方にも複数の方式があります。さらに、同じ内容でもURL、フォーム、JSON、HTTPヘッダー、Cookieなど、異なる経路から届きます。</p>
+<p>AWS WAFで重要なのは、既知の攻撃文字列を自分で巨大な正規表現へ書き写すことではなく、次の3点です。</p>
+<ol>
+<li>AWS Managed RulesまたはSQL injection match statementを使用する。</li>
+<li>アプリケーションが受け取る<strong>すべての入力経路</strong>を検査する。</li>
+<li><code>Count</code>で検出と誤検知を確認してから<code>Block</code>へ移行する。</li>
+</ol>
+<p>本記事は、許可されたシステムの防御検証専用です。実データの抽出、認証回避、データ更新・削除、外部サーバーへの通信を目的とする手順は扱いません。テスト値も、SQLらしい構文をWAFへ認識させるための非破壊的なものに限定します。</p>
+<blockquote>
+<p><strong>先に結論:</strong> URLのQueryだけでは不十分です。少なくとも <strong>URI path、Query、フォームBody、JSON Body、Header、Cookie</strong> をテストします。ファイルアップロードやGraphQLを使用するサービスでは、multipart&#x2F;form-dataやGraphQL variablesも確認します。</p>
+</blockquote>
+<h1 id="1-「すべてのSQLi」をどう整理するか"><a href="#1-「すべてのSQLi」をどう整理するか" class="headerlink" title="1. 「すべてのSQLi」をどう整理するか"></a>1. 「すべてのSQLi」をどう整理するか</h1><p>個々のPayloadには無数の表記ゆれがあるため、「全文字列の一覧」を作ることはできません。実務では、次の4軸で分類すると抜けを発見しやすくなります。</p>
+<table>
+<thead>
+<tr>
+<th>分類軸</th>
+<th>確認すること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SQLへ入る文脈</td>
+<td>文字列、数値、識別子、並び順、検索句など、入力がSQL文のどこへ入るか</td>
+</tr>
+<tr>
+<td>結果の観測方法</td>
+<td>画面表示、真偽の差、エラー、応答時間、外部通信など、攻撃者が結果をどう推測するか</td>
+</tr>
+<tr>
+<td>難読化・解析差</td>
+<td>コメント、大小文字、エンコード、空白、重複パラメーターなどで検査を回避しようとしているか</td>
+</tr>
+<tr>
+<td>HTTPの入力経路</td>
+<td>Query、Body、JSON、Header、Cookieなど、WAFがどのRequest componentを検査すべきか</td>
+</tr>
+</tbody></table>
+<p>同じリクエストが複数分類へ同時に該当することがあります。例えば「JSON BodyにURLエンコードされた数値型のBoolean-based SQLi」は、文脈・観測方法・難読化・入力経路の4軸を持ちます。</p>
+<h1 id="2-SQLへ入る文脈による分類"><a href="#2-SQLへ入る文脈による分類" class="headerlink" title="2. SQLへ入る文脈による分類"></a>2. SQLへ入る文脈による分類</h1><h2 id="2-1-文字列型"><a href="#2-1-文字列型" class="headerlink" title="2.1 文字列型"></a>2.1 文字列型</h2><p>アプリケーションが名前や検索語をSQLの文字列リテラルへ連結している場合です。クォートを閉じ、後続へ条件やコメントを追加しようとします。</p>
+<p><strong>見るべき特徴:</strong></p>
+<ul>
+<li><code>&#39;</code>、<code>&quot;</code>、バッククォートなどの引用符</li>
+<li>引用符の直後に現れる<code>OR</code>、<code>AND</code>、コメント記号</li>
+<li>URLエンコードやHTMLエンティティへ変換された引用符</li>
+</ul>
+<p>シングルクォートを禁止するだけでは、数値型や別の引用構文を防げません。また、入力文字の削除よりも、アプリケーションでのプレースホルダー付きパラメーター化クエリが本来の対策です。</p>
+<h2 id="2-2-数値型（引用符なし）"><a href="#2-2-数値型（引用符なし）" class="headerlink" title="2.2 数値型（引用符なし）"></a>2.2 数値型（引用符なし）</h2><p>ID、ページ番号、金額などをSQLへ直接連結している場合、引用符を使わずに条件式を追加できます。</p>
+<p><strong>見るべき特徴:</strong></p>
+<ul>
+<li>数字の後ろに<code>OR</code>、<code>AND</code>、算術演算子、比較式が続く</li>
+<li><code>id=1 OR 1=1</code>のように引用符がない</li>
+<li>整数を想定した項目へSQLキーワードが入っている</li>
+</ul>
+<p>アプリケーション側では、パラメーター化に加えて整数への型変換と範囲検証を行います。</p>
+<h2 id="2-3-識別子・並び順・構文要素"><a href="#2-3-識別子・並び順・構文要素" class="headerlink" title="2.3 識別子・並び順・構文要素"></a>2.3 識別子・並び順・構文要素</h2><p>テーブル名、列名、<code>ORDER BY</code>の列、昇順・降順、<code>LIMIT</code>などは、通常の値プレースホルダーで置き換えられないことがあります。そのため、開発者が文字列連結しやすい箇所です。</p>
+<p><strong>見るべき特徴:</strong></p>
+<ul>
+<li><code>sort</code>、<code>order</code>、<code>column</code>、<code>fields</code>、<code>group</code>、<code>limit</code>などのパラメーター</li>
+<li>許可された列名や<code>ASC</code> &#x2F; <code>DESC</code>以外の入力</li>
+<li>カンマ、括弧、関数名、コメントを含む値</li>
+</ul>
+<p>この文脈はWAFだけに依存せず、アプリケーションで許可リストを使います。例えば<code>sort=name</code>を受け取り、サーバー側の固定マップから実際の列名へ変換します。</p>
+<h2 id="2-4-LIKE・全文検索・配列展開"><a href="#2-4-LIKE・全文検索・配列展開" class="headerlink" title="2.4 LIKE・全文検索・配列展開"></a>2.4 LIKE・全文検索・配列展開</h2><p>検索画面の<code>LIKE</code>、複数IDの<code>IN (...)</code>、全文検索式などへ入力を展開する場合です。ワイルドカードや区切り文字をアプリケーションが独自処理するため、実装不備が生まれやすくなります。</p>
+<p><strong>見るべき特徴:</strong></p>
+<ul>
+<li>検索・絞り込みAPIへSQL構文に似た文字列が入る</li>
+<li>カンマ区切りのIDリストへ括弧や演算子が混ざる</li>
+<li>エスケープ処理後に文字列を再結合している</li>
+</ul>
+<h2 id="2-5-Second-order（保存後に発火）"><a href="#2-5-Second-order（保存後に発火）" class="headerlink" title="2.5 Second-order（保存後に発火）"></a>2.5 Second-order（保存後に発火）</h2><p>入力時にはSQLとして使われず、データベースへ保存された値が、後日のバッチ処理や管理画面でSQLへ再連結されたときに問題になる方式です。</p>
+<p>入口のWAFログと発生時刻が離れるため、WAFだけで完全に判断できません。保存先、再利用箇所、アプリケーションログを追跡し、<strong>読み出した値も安全とはみなさずパラメーター化する</strong>必要があります。</p>
+<h1 id="3-結果の観測方法による分類"><a href="#3-結果の観測方法による分類" class="headerlink" title="3. 結果の観測方法による分類"></a>3. 結果の観測方法による分類</h1><h2 id="3-1-Boolean-based（真偽差分）"><a href="#3-1-Boolean-based（真偽差分）" class="headerlink" title="3.1 Boolean-based（真偽差分）"></a>3.1 Boolean-based（真偽差分）</h2><p>条件を真・偽へ変え、ステータスコード、本文サイズ、表示内容などの差からSQLの評価結果を推測する方式です。典型的な永真条件だけでなく、比較式や関数の結果が使われます。</p>
+<h2 id="3-2-UNION-based（結果の結合）"><a href="#3-2-UNION-based（結果の結合）" class="headerlink" title="3.2 UNION-based（結果の結合）"></a>3.2 UNION-based（結果の結合）</h2><p>元の検索結果へ別の<code>SELECT</code>結果を結合しようとする方式です。<code>UNION</code>、<code>SELECT</code>、<code>NULL</code>、列数調整などの組み合わせが特徴になります。</p>
+<p>WAFテストでは、実在するテーブル名や機密列名を使用しません。本記事では非破壊カナリアとして<code>0 UNION SELECT NULL</code>までに限定します。</p>
+<h2 id="3-3-Error-based（エラー差分）"><a href="#3-3-Error-based（エラー差分）" class="headerlink" title="3.3 Error-based（エラー差分）"></a>3.3 Error-based（エラー差分）</h2><p>型変換、XML、数値演算などのエラーを意図的に発生させ、DBエラーや応答差から情報を推測する方式です。DB製品ごとに関数やエラー形式が異なります。</p>
+<p>本番アプリケーションでは、詳細なDBエラーをクライアントへ返さず、内部ログにも認証情報やSQL全文を不用意に残さないようにします。</p>
+<h2 id="3-4-Time-based-blind（時間差）"><a href="#3-4-Time-based-blind（時間差）" class="headerlink" title="3.4 Time-based blind（時間差）"></a>3.4 Time-based blind（時間差）</h2><p>DB側の待機関数や高負荷処理を利用し、応答時間の差から真偽を推測する方式です。MySQL、PostgreSQL、SQL Serverなどで構文が異なります。</p>
+<p>待機や高負荷を発生させるPayloadは、WAFを<code>Count</code>にしているとバックエンドへ到達します。したがって、本記事の自動テストには含めません。必要な場合は、バックエンドへ到達しない隔離環境で、負荷上限と停止条件を決めて実施します。</p>
+<h2 id="3-5-Stacked-query（複文実行）"><a href="#3-5-Stacked-query（複文実行）" class="headerlink" title="3.5 Stacked query（複文実行）"></a>3.5 Stacked query（複文実行）</h2><p>文の区切り後に別のSQL文を追加しようとする方式です。DBドライバーが複文実行を許可している場合に危険になります。</p>
+<p>検証には<code>1;SELECT 1</code>のような読み取りも伴わない定数式だけを使い、<code>INSERT</code>、<code>UPDATE</code>、<code>DELETE</code>、<code>DROP</code>などの変更系命令は使いません。</p>
+<h2 id="3-6-Out-of-band（外部経路）"><a href="#3-6-Out-of-band（外部経路）" class="headerlink" title="3.6 Out-of-band（外部経路）"></a>3.6 Out-of-band（外部経路）</h2><p>DNSやHTTPなど、Webレスポンスとは別の経路へDBから通信させ、結果や到達性を確認しようとする方式です。外部通信を伴い、組織外システムへ影響する可能性があるため、本記事ではテストしません。DBサーバーの送信通信制限と監視で防御します。</p>
+<h1 id="4-DB製品ごとの差"><a href="#4-DB製品ごとの差" class="headerlink" title="4. DB製品ごとの差"></a>4. DB製品ごとの差</h1><p>AWS WAFは複数のSQL方言を考慮しますが、アプリケーションが使用するDB製品を把握しておくと誤検知調査が容易です。</p>
+<table>
+<thead>
+<tr>
+<th>DB系統</th>
+<th>調査時に意識する差</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MySQL &#x2F; MariaDB</td>
+<td>コメント形式、バージョン付きコメント、文字コード、関数名</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>型キャスト、配列・JSON演算子、Dollar-quoted string、関数名</td>
+</tr>
+<tr>
+<td>SQL Server</td>
+<td>バッチ区切り、型変換、待機構文、角括弧の識別子</td>
+</tr>
+<tr>
+<td>Oracle Database</td>
+<td>文字列連結、<code>DUAL</code>、関数、パッケージ、コメント</td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td>型の柔軟性、関数、<code>PRAGMA</code>、コメント</td>
+</tr>
+</tbody></table>
+<p>製品固有の構文を網羅するPayload集を本番へ一括送信するのではなく、利用DBと実装に関係する分類だけを隔離環境で追加検証します。</p>
+<h1 id="5-難読化・WAF回避で見るべき分類"><a href="#5-難読化・WAF回避で見るべき分類" class="headerlink" title="5. 難読化・WAF回避で見るべき分類"></a>5. 難読化・WAF回避で見るべき分類</h1><p>次は別々の攻撃目的ではなく、上記のSQLiを検査から隠すための表記変形です。</p>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>例・観察点</th>
+<th>AWS WAFで検討すること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大小文字混在</td>
+<td><code>uNiOn SeLeCt</code></td>
+<td>SQLi検査と必要に応じた<code>LOWERCASE</code></td>
+</tr>
+<tr>
+<td>コメント分割</td>
+<td><code>1/**/OR/**/1=1</code></td>
+<td><code>REPLACE_COMMENTS</code>、<code>COMPRESS_WHITE_SPACE</code></td>
+</tr>
+<tr>
+<td>空白の置換</td>
+<td>タブ、改行、複数空白</td>
+<td><code>COMPRESS_WHITE_SPACE</code></td>
+</tr>
+<tr>
+<td>URLエンコード</td>
+<td><code>%27</code>、<code>%20</code>など</td>
+<td><code>URL_DECODE</code>、必要時は<code>URL_DECODE_UNI</code></td>
+</tr>
+<tr>
+<td>二重エンコード</td>
+<td><code>%2527</code>など</td>
+<td>アプリ側のデコード回数との一致、変換順</td>
+</tr>
+<tr>
+<td>HTMLエンティティ</td>
+<td><code>&amp;#39;</code>など</td>
+<td><code>HTML_ENTITY_DECODE</code></td>
+</tr>
+<tr>
+<td>Unicode・全角</td>
+<td>Unicode表記、互換文字</td>
+<td><code>NORMALIZE_PATH</code>系との混同を避け、アプリの正規化を確認</td>
+</tr>
+<tr>
+<td>16進・エスケープ</td>
+<td>16進表記、バックスラッシュ</td>
+<td><code>SQL_HEX_DECODE</code>、<code>ESCAPE_SEQ_DECODE</code></td>
+</tr>
+<tr>
+<td>重複Query</td>
+<td><code>id=正常&amp;id=テスト値</code></td>
+<td>アプリが先頭・末尾・全件のどれを使うか確認</td>
+</tr>
+<tr>
+<td>区切り差</td>
+<td><code>;</code>をQuery区切りとして解釈</td>
+<td>Raw queryの事前解析変換を確認</td>
+</tr>
+<tr>
+<td>Parameter fragmentation</td>
+<td>キーワードが複数項目へ分割</td>
+<td>アプリが値を連結するなら結合後の検証も必要</td>
+</tr>
+<tr>
+<td>Content-Type差</td>
+<td>JSON宣言で非JSON、または逆</td>
+<td>WAFとアプリのパーサー差を確認</td>
+</tr>
+<tr>
+<td>Oversize</td>
+<td>検査上限より後ろへ配置</td>
+<td>Body&#x2F;Header&#x2F;Cookieの上限超過処理を明示</td>
+</tr>
+</tbody></table>
+<p>Text transformationは、低いPriorityから高いPriorityの順に実行されます。例えば、URLデコード後にコメントを空白へ置き換える必要がある場合、<code>URL_DECODE</code>を先、<code>REPLACE_COMMENTS</code>を後にします。変換を増やすほどWCUと誤検知の可能性も増えるため、「全部を無条件に追加」するのではなく、アプリケーションが実際に受け付けるエンコードへ合わせます。</p>
+<h1 id="6-HTTP入力経路：Bodyとformもテストすべきか"><a href="#6-HTTP入力経路：Bodyとformもテストすべきか" class="headerlink" title="6. HTTP入力経路：Bodyとformもテストすべきか"></a>6. HTTP入力経路：Bodyとformもテストすべきか</h1><p><strong>はい。必ずテストします。</strong> HTMLフォームの値はURLではなく、通常はリクエストBodyに入ります。SPAやモバイルアプリではJSON Bodyが中心です。認証トークンや検索条件をHeader・Cookieへ入れる設計もあります。</p>
+<table>
+<thead>
+<tr>
+<th>入力経路</th>
+<th>典型例</th>
+<th>Content-Type</th>
+<th>WAFで確認する対象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>URI path</td>
+<td><code>/items/123</code></td>
+<td>なし</td>
+<td>URI path</td>
+</tr>
+<tr>
+<td>Query</td>
+<td><code>?id=123</code></td>
+<td>なし</td>
+<td>All query parameters &#x2F; Single query parameter &#x2F; Query string</td>
+</tr>
+<tr>
+<td>HTMLフォーム</td>
+<td><code>id=123&amp;sort=name</code></td>
+<td><code>application/x-www-form-urlencoded</code></td>
+<td>Body</td>
+</tr>
+<tr>
+<td>JSON API</td>
+<td><code>&#123;&quot;id&quot;:&quot;123&quot;&#125;</code></td>
+<td><code>application/json</code></td>
+<td>BodyまたはJSON body</td>
+</tr>
+<tr>
+<td>multipart form</td>
+<td>テキスト項目とファイル</td>
+<td><code>multipart/form-data</code></td>
+<td>Body。境界とサイズ上限に注意</td>
+</tr>
+<tr>
+<td>XML &#x2F; GraphQL</td>
+<td>XML本文、GraphQL query・variables</td>
+<td>各Content-Type</td>
+<td>BodyまたはJSON body</td>
+</tr>
+<tr>
+<td>Header</td>
+<td>独自検索ヘッダーなど</td>
+<td>なし</td>
+<td>Single header &#x2F; All headers</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>セッション以外の設定値</td>
+<td>なし</td>
+<td>Cookies</td>
+</tr>
+</tbody></table>
+<h2 id="6-1-AWS-Managed-RulesのSQL-databaseルールグループ"><a href="#6-1-AWS-Managed-RulesのSQL-databaseルールグループ" class="headerlink" title="6.1 AWS Managed RulesのSQL databaseルールグループ"></a>6.1 AWS Managed RulesのSQL databaseルールグループ</h2><p>最初の防御として、AWS Managed Rulesの<code>AWSManagedRulesSQLiRuleSet</code>を使用します。2026年10月24日にAWS公式ドキュメントで確認できる静的バージョンは<code>2.4</code>、Capacityは<code>200 WCU</code>で、次の8サブルールが掲載されています。バージョンと内部シグネチャは更新されるため、導入時にコンソールと変更履歴を再確認してください。</p>
+<table>
+<thead>
+<tr>
+<th>サブルール</th>
+<th>主な検査対象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SQLi_QUERYARGUMENTS</code></td>
+<td>Query parameter values</td>
+</tr>
+<tr>
+<td><code>SQLiExtendedPatterns_QUERYARGUMENTS</code></td>
+<td>Queryの拡張パターン</td>
+</tr>
+<tr>
+<td><code>SQLi_BODY</code></td>
+<td>Body</td>
+</tr>
+<tr>
+<td><code>SQLiExtendedPatterns_BODY</code></td>
+<td>Bodyの拡張パターン</td>
+</tr>
+<tr>
+<td><code>SQLiExtendedPatterns_HEADER</code></td>
+<td>Headerの拡張パターン</td>
+</tr>
+<tr>
+<td><code>SQLiExtendedPatterns_URIPATH</code></td>
+<td>URI pathの拡張パターン</td>
+</tr>
+<tr>
+<td><code>SQLi_COOKIE</code></td>
+<td>Cookie</td>
+</tr>
+<tr>
+<td><code>SQLi_URIPATH</code></td>
+<td>URI path</td>
+</tr>
+</tbody></table>
+<h2 id="6-2-コンソールでManaged-Rule-GroupをCount導入する"><a href="#6-2-コンソールでManaged-Rule-GroupをCount導入する" class="headerlink" title="6.2 コンソールでManaged Rule GroupをCount導入する"></a>6.2 コンソールでManaged Rule GroupをCount導入する</h2><ol>
+<li><strong>AWS WAF &amp; Shield</strong>を開く。</li>
+<li>CloudFrontなら<strong>Global (CloudFront)</strong>、ALBやAPI Gatewayなら対象リージョンを選ぶ。</li>
+<li>**Web ACLs &#x2F; Protection packs (Web ACLs)**から対象Web ACLを開く。</li>
+<li><strong>Rules</strong> → <strong>Add rules</strong> → <strong>Add managed rule groups</strong>を選ぶ。</li>
+<li><strong>AWS managed rule groups</strong> → <strong>SQL database</strong>を追加する。</li>
+<li>検証期間中は各サブルールのAction overrideを<code>Count</code>にする。</li>
+<li>CloudWatch metricsとSampled requestsを有効にする。</li>
+<li>保存後、優先順位とWeb ACL全体のCapacityを確認する。</li>
+</ol>
+<p>ルールグループ全体の戻り値だけを変更する設定と、各サブルールのAction overrideは意味が異なります。テスト時は、ログへ各サブルールの一致を残せるよう、意図したoverrideになっているか確認します。</p>
+<h2 id="6-3-カスタムSQLiルールを追加する場合"><a href="#6-3-カスタムSQLiルールを追加する場合" class="headerlink" title="6.3 カスタムSQLiルールを追加する場合"></a>6.3 カスタムSQLiルールを追加する場合</h2><p>次の場合は、Managed Rule Groupに加えてカスタムのSQL injection match statementを検討します。</p>
+<ul>
+<li>特定のJSONキーだけを検査したい</li>
+<li><code>HIGH</code> sensitivityを明示的に使用したい</li>
+<li>特定パス・メソッドだけへScopeを限定したい</li>
+<li>Oversize handlingを業務要件に合わせたい</li>
+<li>Query、Body、Headerなどを別ルールに分け、検出箇所を明確にしたい</li>
+</ul>
+<p>コンソールでは次の順に設定します。</p>
+<ol>
+<li>Web ACL → <strong>Rules</strong> → <strong>Add rules</strong> → <strong>Add my own rules and rule groups</strong>。</li>
+<li><strong>Rule builder</strong> → <strong>Regular rule</strong>を選ぶ。</li>
+<li><strong>Inspect</strong>で<code>All query parameters</code>、<code>Body</code>、<code>JSON body</code>、<code>URI path</code>、<code>Single header</code>、<code>Cookies</code>などを選ぶ。</li>
+<li><strong>Match type</strong>で<strong>Attack match condition</strong> → <strong>Contains SQL injection attacks</strong>を選ぶ。</li>
+<li>Sensitivityを<code>LOW</code>または<code>HIGH</code>にする。<code>HIGH</code>は検出力と同時に誤検知も増える可能性がある。</li>
+<li>アプリのデコード仕様に合わせてText transformationと順序を設定する。</li>
+<li>Oversize handlingを設定できる対象では、<code>Continue</code>、<code>Match</code>、<code>No match</code>の意味を確認する。</li>
+<li>Actionを<code>Count</code>にして保存する。</li>
+</ol>
+<p>SQLi match statementの基本コストは<code>LOW</code>で20 WCU、<code>HIGH</code>で30 WCUです。All query parametersは10 WCU加算、JSON bodyは基本コストが倍、Text transformationは1件につき10 WCU加算されます。</p>
+<h1 id="7-Bodyサイズ上限とOversize-handling"><a href="#7-Bodyサイズ上限とOversize-handling" class="headerlink" title="7. Bodyサイズ上限とOversize handling"></a>7. Bodyサイズ上限とOversize handling</h1><p>AWS WAFは無制限の本文を検査しません。ALBとAWS AppSyncは最初の8 KB、CloudFront・API Gateway・Amazon Cognito・App Runner・Verified Access・Bedrock AgentCore Gatewayは既定で最初の16 KBを転送し、対応サービスでは最大64 KBへ変更できます。</p>
+<p>検査範囲を超えた本文がある場合、ルールのOversize handlingによって動作が変わります。</p>
+<table>
+<thead>
+<tr>
+<th>設定</th>
+<th>意味</th>
+<th>向いている考え方</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Continue</code></td>
+<td>検査可能な部分だけで通常評価</td>
+<td>互換性優先。ただし後半は未検査</td>
+</tr>
+<tr>
+<td><code>Match</code></td>
+<td>上限超過を一致として扱う</td>
+<td>小さいBodyだけを許可するAPIなど</td>
+</tr>
+<tr>
+<td><code>No match</code></td>
+<td>上限超過を不一致として扱う</td>
+<td>別ルールでサイズ制限する場合に慎重に使用</td>
+</tr>
+</tbody></table>
+<p>Managed Rule GroupのSQLi Bodyルールは、サービスからWAFへ渡された範囲だけを検査し、公式ドキュメント上のOversize handlingは<code>Continue</code>です。ファイルアップロードがあるサービスでは、SQLiルールだけに任せず、パス別のBodyサイズ制限、Content-Type制限、ファイル検査を組み合わせます。</p>
+<h1 id="8-安全なテスト設計"><a href="#8-安全なテスト設計" class="headerlink" title="8. 安全なテスト設計"></a>8. 安全なテスト設計</h1><h2 id="8-1-テスト前提"><a href="#8-1-テスト前提" class="headerlink" title="8.1 テスト前提"></a>8.1 テスト前提</h2><ul>
+<li>自組織が所有し、テスト許可があるホストだけを対象にする。</li>
+<li><code>Count</code>時はリクエストがアプリへ到達するため、<strong>DBへ接続しない専用エンドポイント</strong>を使用する。</li>
+<li>専用エンドポイントを用意できない場合は、隔離した検証環境で行う。</li>
+<li>一意な<code>X-WAF-Test-ID</code>を付け、業務通信と区別する。</li>
+<li>実在するユーザー名、テーブル名、列名、機密情報をテスト値へ入れない。</li>
+<li>待機関数、外部通信、データ変更・削除の構文は使用しない。</li>
+<li>HTTPステータスだけで合否を決めず、WAFログのRule ID・Label・Match detailsを確認する。</li>
+</ul>
+<h2 id="8-2-入力経路ごとの非破壊テスト"><a href="#8-2-入力経路ごとの非破壊テスト" class="headerlink" title="8.2 入力経路ごとの非破壊テスト"></a>8.2 入力経路ごとの非破壊テスト</h2><p>以下は、<code>TARGET_BASE</code>配下の<code>/waf-test</code>が入力をDBへ渡さず、単純に固定レスポンスを返す前提です。<code>Count</code>では通常200系、<code>Block</code>では多くの構成で403になりますが、Custom responseやCloudFront設定で異なるため、WAFログを正とします。</p>
+<pre><code class="language-bash">TARGET_BASE=&quot;https://example.com&quot;
+TEST_ID=&quot;waf-sqli-$(date +%Y%m%d%H%M%S)&quot;
+TEST_PATH=&quot;/waf-test&quot;
+
+# 1. Query：数値型Boolean-based
+curl -sS -o /dev/null -w &quot;query: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-query&quot; \
+  --get --data-urlencode &quot;waf_sqli_test=1 OR 1=1&quot; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;&quot;
+
+# 2. URI path：コメントを使った表記変形
+curl -sS -o /dev/null -w &quot;path: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-path&quot; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;/1%2F%2A%2A%2FOR%2F%2A%2A%2F1%3D1&quot;
+
+# 3. HTML form：application/x-www-form-urlencoded Body
+curl -sS -o /dev/null -w &quot;form: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-form&quot; \
+  -H &quot;Content-Type: application/x-www-form-urlencoded&quot; \
+  --data-urlencode &quot;waf_sqli_test=&#39; OR &#39;a&#39;=&#39;a&quot; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;&quot;
+
+# 4. JSON Body：UNION構文の非破壊カナリア
+curl -sS -o /dev/null -w &quot;json: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-json&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  --data &#39;&#123;&quot;waf_sqli_test&quot;:&quot;0 UNION SELECT NULL&quot;&#125;&#39; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;&quot;
+
+# 5. Header
+curl -sS -o /dev/null -w &quot;header: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-header&quot; \
+  -H &quot;X-Test-Search: 1 OR 1=1&quot; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;&quot;
+
+# 6. Cookie
+curl -sS -o /dev/null -w &quot;cookie: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-cookie&quot; \
+  --cookie &quot;waf_sqli_test=1%20OR%201%3D1&quot; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;&quot;
+
+# 7. multipart/form-dataのテキスト項目（ファイルは送らない）
+curl -sS -o /dev/null -w &quot;multipart: %&#123;http_code&#125;\n&quot; \
+  -H &quot;X-WAF-Test-ID: $&#123;TEST_ID&#125;-multipart&quot; \
+  -F &quot;waf_sqli_test=1 OR 1=1&quot; \
+  &quot;$&#123;TARGET_BASE&#125;$&#123;TEST_PATH&#125;&quot;
+</code></pre>
+<h2 id="8-3-構文分類ごとの追加カナリア"><a href="#8-3-構文分類ごとの追加カナリア" class="headerlink" title="8.3 構文分類ごとの追加カナリア"></a>8.3 構文分類ごとの追加カナリア</h2><p>入力経路の検査ができたら、同じ専用パラメーターへ次の非破壊値を1件ずつ送信し、どのサブルールが検出するか確認します。</p>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>非破壊テスト値</th>
+<th>確認目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文字列型Boolean</td>
+<td><code>&#39; OR &#39;a&#39;=&#39;a</code></td>
+<td>引用符を含む基本形</td>
+</tr>
+<tr>
+<td>数値型Boolean</td>
+<td><code>1 OR 1=1</code></td>
+<td>引用符なし</td>
+</tr>
+<tr>
+<td>偽条件</td>
+<td><code>1 AND 1=2</code></td>
+<td>真条件との判定差ではなくWAF一致を確認</td>
+</tr>
+<tr>
+<td>UNION</td>
+<td><code>0 UNION SELECT NULL</code></td>
+<td>結果結合構文の特徴</td>
+</tr>
+<tr>
+<td>コメント分割</td>
+<td><code>1/**/OR/**/1=1</code></td>
+<td>コメント正規化</td>
+</tr>
+<tr>
+<td>大小文字混在</td>
+<td><code>1 oR 1=1</code></td>
+<td>大小文字の変形</td>
+</tr>
+<tr>
+<td>型変換</td>
+<td><code>CAST(1 AS INTEGER)</code></td>
+<td>関数・型構文</td>
+</tr>
+<tr>
+<td>Stacked</td>
+<td><code>1;SELECT 1</code></td>
+<td>文区切り。ただしDBへ到達させない</td>
+</tr>
+<tr>
+<td>URLエンコード</td>
+<td>curlの<code>--data-urlencode</code>を使用</td>
+<td>エンコード後の検査</td>
+</tr>
+</tbody></table>
+<p>これらは「すべて検出されれば完全」という試験ではありません。目的は、各Request componentが意図したルールへ届き、ログへ検出箇所が残ることを確認することです。AWS Managed Rulesの内部シグネチャは公開されておらず、更新されます。</p>
+<h1 id="9-CloudWatch-Logs-Insightsで結果を確認する"><a href="#9-CloudWatch-Logs-Insightsで結果を確認する" class="headerlink" title="9. CloudWatch Logs Insightsで結果を確認する"></a>9. CloudWatch Logs Insightsで結果を確認する</h1><h2 id="9-1-テストIDで通信を抽出する"><a href="#9-1-テストIDで通信を抽出する" class="headerlink" title="9.1 テストIDで通信を抽出する"></a>9.1 テストIDで通信を抽出する</h2><p>Header配列の順序は固定ではないため、<code>httpRequest.headers.0.value</code>をUser-Agentと決め打ちしません。テストIDをログ全体から検索します。</p>
+<pre><code class="language-sql">fields @timestamp, action, terminatingRuleId, terminatingRuleType,
+       httpRequest.clientIp, httpRequest.httpMethod,
+       httpRequest.uri, httpRequest.args,
+       nonTerminatingMatchingRules, ruleGroupList, labels
+| filter @message like /waf-sqli-/
+| sort @timestamp desc
+| limit 100
+</code></pre>
+<h2 id="9-2-SQLi一致を抽出する"><a href="#9-2-SQLi一致を抽出する" class="headerlink" title="9.2 SQLi一致を抽出する"></a>9.2 SQLi一致を抽出する</h2><pre><code class="language-sql">fields @timestamp, action, terminatingRuleId,
+       httpRequest.clientIp, httpRequest.httpMethod,
+       httpRequest.uri, httpRequest.args,
+       terminatingRuleMatchDetails,
+       nonTerminatingMatchingRules, ruleGroupList, labels
+| filter @message like /SQL_INJECTION/
+    or @message like /sql-database:SQLi/
+    or @message like /SQLi_/
+| sort @timestamp desc
+| limit 200
+</code></pre>
+<p><code>Block</code>などの終端ルールは<code>terminatingRuleId</code>と<code>terminatingRuleMatchDetails</code>へ記録されます。<code>Count</code>は非終端なので、Web ACL直下のカスタムルールなら<code>nonTerminatingMatchingRules</code>、ルールグループ内なら<code>ruleGroupList[].nonTerminatingMatchingRules</code>も確認します。<code>Count</code>中に<code>terminatingRuleId = Default_Action</code>となっていても、「不一致」とは限りません。</p>
+<h1 id="10-誤検知と見逃しを判断するチェック表"><a href="#10-誤検知と見逃しを判断するチェック表" class="headerlink" title="10. 誤検知と見逃しを判断するチェック表"></a>10. 誤検知と見逃しを判断するチェック表</h1><table>
+<thead>
+<tr>
+<th>結果</th>
+<th>まず確認すること</th>
+<th>次の対応</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>テストを検出した</td>
+<td>Rule ID、Label、location、Action</td>
+<td>他の入力経路も同様に確認</td>
+</tr>
+<tr>
+<td>Queryは検出、JSONは未検出</td>
+<td>JSONのContent-Type、JSON body設定、Body上限</td>
+<td>専用JSON SQLiルールを検討</td>
+</tr>
+<tr>
+<td>Countなのにログに見えない</td>
+<td><code>nonTerminatingMatchingRules</code>と<code>ruleGroupList</code></td>
+<td>Logging filter、Rule overrideを確認</td>
+</tr>
+<tr>
+<td>正常通信を検出した</td>
+<td>一致箇所、実値、対象URI、業務上の必要性</td>
+<td>URI・キー・メソッドでScope-down、例外は最小化</td>
+</tr>
+<tr>
+<td>攻撃風入力を通過した</td>
+<td>検査対象、Priority、変換、上限超過</td>
+<td>Request componentを追加、変換順・Oversizeを修正</td>
+</tr>
+<tr>
+<td>403だがSQLiログなし</td>
+<td>他の終端ルールが先に一致していないか</td>
+<td>Priorityと全ルールのログを確認</td>
+</tr>
+</tbody></table>
+<h1 id="11-本番移行の推奨順序"><a href="#11-本番移行の推奨順序" class="headerlink" title="11. 本番移行の推奨順序"></a>11. 本番移行の推奨順序</h1><ol>
+<li>AWS Managed Rules SQL databaseを各サブルール<code>Count</code>で追加する。</li>
+<li>専用エンドポイントで7入力経路をテストする。</li>
+<li>少なくとも通常業務の1サイクル分、正常通信の一致を観察する。</li>
+<li>誤検知は広いAllowではなく、URI・HTTP method・JSON keyなどで最小限に除外する。</li>
+<li>問題のないサブルールから個別に<code>Block</code>へ移す。</li>
+<li><code>Block</code>後もLabel、Rule ID、URI、ステータス、件数を監視する。</li>
+<li>Managed Rule Groupの新バージョンは、いきなり切り替えず検証環境またはCountで再評価する。</li>
+</ol>
+<h1 id="12-WAFだけでは防げない"><a href="#12-WAFだけでは防げない" class="headerlink" title="12. WAFだけでは防げない"></a>12. WAFだけでは防げない</h1><p>WAFは重要な多層防御ですが、SQLiの根本対策はアプリケーションとDBにも必要です。</p>
+<ul>
+<li>プレースホルダー付きパラメーター化クエリを使用する。</li>
+<li>列名や並び順は許可リストから選ぶ。</li>
+<li>数値・UUID・日付などを型と形式で検証する。</li>
+<li>DBアカウントへ必要最小限の権限だけを与える。</li>
+<li>複文実行や不要なDB機能を無効化する。</li>
+<li>詳細なSQLエラーを利用者へ返さない。</li>
+<li>DBサーバーからインターネットへの不要な送信通信を止める。</li>
+<li>依存ライブラリ、ORM、DBドライバーを更新する。</li>
+<li>SAST、DAST、コードレビュー、監査ログを組み合わせる。</li>
+</ul>
+<h1 id="参考資料"><a href="#参考資料" class="headerlink" title="参考資料"></a>参考資料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ja_jp/waf/latest/developerguide/waf-rule-statement-type-sqli-match.html">AWS WAF SQL injection match rule statement</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ja_jp/waf/latest/developerguide/waf-rule-statement-fields-list.html">Request components in AWS WAF</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ja_jp/waf/latest/developerguide/waf-rule-statement-transformation.html">Text transformations</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html">AWS Managed Rules rule groups list</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html">SQL database managed rule group</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-changelog.html">AWS Managed Rules changelog</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ja_jp/waf/latest/developerguide/waf-oversize-request-components.html">Oversize web request components</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html">AWS WAF log fields</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/waf/latest/developerguide/logging-examples.html">AWS WAF log examples</a></li>
+</ul>
+<hr>
+<p>このガイドのテスト値は、WAFの検出経路を確認するための非破壊カナリアです。検出されなかった値を実DBで試すのではなく、Rule設定、Request component、変換順、本文上限、アプリケーションのパラメーター化を見直してください。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2025 - 2026 ouki0331 技術ブログ
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ouki0331
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script>
+        console.log("Welcome to Argvchs' blog!");
+        if (!window.hasOwnProperty("ontouchstart")) {
+            let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+            document.body.append(document.createRange().createContextualFragment(html));
+        }
+    </script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
