@@ -3,17 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: ouki0331 技術ブログ
+subtitle: '技術メモと運用手順 / Technical notes and runbooks'
+description: 'AWS、PHP、Web開発に関する技術メモと運用手順'
+keywords: AWS, WAF, PHP, Web Development
+author: ouki0331
+language:
+  - ja
+  - en
+timezone: Asia/Tokyo
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://ouki0331.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -68,7 +70,7 @@ index_generator:
   order_by: -date
 
 # Category & Tag
-default_category: uncategorized
+default_category: 未分類
 category_map:
 tag_map:
 
@@ -100,6 +102,17 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: particlex
+
+# ParticleX theme overrides. The site UI uses Japanese with short English labels.
+theme_config:
+  avatar: https://github.com/ouki0331.png
+  card:
+    enable: false
+  footer:
+    since: 2025
+  giscus:
+    enable: false
+    lang: ja
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
