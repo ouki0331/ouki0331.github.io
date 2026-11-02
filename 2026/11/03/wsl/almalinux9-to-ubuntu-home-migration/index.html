@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="ja,en,default">
+<head>
+    <meta charset="utf-8" />
+    <title>AlmaLinux 9 WSL から Ubuntu WSL へ Home ディレクトリを安全に移行する手順 | ouki0331 技術ブログ</title>
+    <meta name="author" content="ouki0331" />
+    <meta name="description" content="AWS、PHP、Web開発に関する技術メモと運用手順" />
+    <meta name="keywords" content="AWS, WAF, PHP, Web Development" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="https://github.com/ouki0331.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/css/main.css" />
+<link rel="preconnect" href="https://static-argvchs.netlify.app" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>読み込みに時間がかかる場合は、ブラウザーのキャッシュ設定を確認してください。</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>OUKI0331 技術ブログ</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;ホーム / Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;このブログについて / About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;アーカイブ / Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;カテゴリー / Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;タグ / Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;OUKI0331 技術ブログ</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">ホーム / Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">このブログについて / About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">アーカイブ / Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">カテゴリー / Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">タグ / Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>AlmaLinux 9 WSL から Ubuntu WSL へ Home ディレクトリを安全に移行する手順</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/11/3
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Linux/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Linux
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/WSL/" style="color: #03a9f4">
+                    WSL
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/AlmaLinux/" style="color: #00a596">
+                    AlmaLinux
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Ubuntu/" style="color: #ffa2c4">
+                    Ubuntu
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/rsync/" style="color: #ff7d73">
+                    rsync
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/SSH/" style="color: #03a9f4">
+                    SSH
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h1><p>本書では、AlmaLinux 9 WSL インスタンスの Home ディレクトリにあるユーザーファイルを、Ubuntu WSL インスタンスの対応する Home ディレクトリへ直接統合します。</p>
+<p>今回の対象は次のユーザーデータです。</p>
+<ul>
+<li>個人文書とプロジェクトファイル</li>
+<li>Shell の設定</li>
+<li>Git、SSH などのユーザー単位の設定</li>
+<li>自作スクリプト</li>
+<li>Home ディレクトリ内のその他のデータ</li>
+</ul>
+<p>パッケージ、システムサービス、データベース、システム全体の設定は対象外です。これらは必要性を確認したうえで、後続作業として個別に移行します。</p>
+<h2 id="1-移行方針"><a href="#1-移行方針" class="headerlink" title="1. 移行方針"></a>1. 移行方針</h2><p>作業では次の条件を守ります。</p>
+<ol>
+<li>移行元の AlmaLinux 9 は、今後4～6か月保管し、すぐには削除しない。</li>
+<li>現段階ではディストリビューション全体のバックアップを作成しない。</li>
+<li>AlmaLinux 側は読み取り専用の移行元として扱い、ファイルを変更・削除しない。</li>
+<li>中継用ディレクトリや一時圧縮ファイルを作らず、Ubuntu の Home へ直接書き込む。</li>
+<li>Ubuntu に同名ファイルが存在する場合は、既存ファイルを上書きしない。</li>
+<li>Ubuntu にしか存在しないファイルを削除しない。</li>
+<li>転送が中断しても再実行でき、未完了部分から再開できるようにする。</li>
+<li>削除の意味を持つ同期オプションは使用しない。</li>
+</ol>
+<blockquote>
+<p><strong>重要:</strong> <code>--ignore-existing</code> と通常の <code>--partial</code> だけを組み合わせると、中断時に残った不完全な宛先ファイルが次回実行で「既存ファイル」と判断され、スキップされる可能性があります。本手順では部分データを専用ディレクトリに保持する <code>--partial-dir=.rsync-partial</code> を使用します。</p>
+</blockquote>
+<h2 id="2-接続構成"><a href="#2-接続構成" class="headerlink" title="2. 接続構成"></a>2. 接続構成</h2><p>WSL は Mirrored networking mode を使用している前提です。AlmaLinux の独立した NAT IP は取得せず、AlmaLinux 上の一時 SSH サーバーを次のアドレスで公開します。</p>
+<pre><code class="language-text">127.0.0.1:2222
+</code></pre>
+<p>Ubuntu はこのアドレスへ接続し、<code>rsync</code> で AlmaLinux からファイルを取得します。</p>
+<h2 id="3-AlmaLinux-9-側の準備"><a href="#3-AlmaLinux-9-側の準備" class="headerlink" title="3. AlmaLinux 9 側の準備"></a>3. AlmaLinux 9 側の準備</h2><h3 id="3-1-必要なパッケージをインストールする"><a href="#3-1-必要なパッケージをインストールする" class="headerlink" title="3.1 必要なパッケージをインストールする"></a>3.1 必要なパッケージをインストールする</h3><pre><code class="language-bash">sudo dnf install -y rsync openssh-server
+sudo ssh-keygen -A
+</code></pre>
+<h3 id="3-2-一時-SSH-サーバーを起動する"><a href="#3-2-一時-SSH-サーバーを起動する" class="headerlink" title="3.2 一時 SSH サーバーを起動する"></a>3.2 一時 SSH サーバーを起動する</h3><pre><code class="language-bash">sudo /usr/sbin/sshd \
+  -p 2222 \
+  -o ListenAddress=127.0.0.1
+</code></pre>
+<h3 id="3-3-待受状態を確認する"><a href="#3-3-待受状態を確認する" class="headerlink" title="3.3 待受状態を確認する"></a>3.3 待受状態を確認する</h3><pre><code class="language-bash">sudo ss -lntp | grep 2222
+</code></pre>
+<p><code>127.0.0.1:2222</code> で <code>sshd</code> が LISTEN していることを確認します。</p>
+<h2 id="4-Ubuntu-側の準備"><a href="#4-Ubuntu-側の準備" class="headerlink" title="4. Ubuntu 側の準備"></a>4. Ubuntu 側の準備</h2><h3 id="4-1-クライアントツールをインストールする"><a href="#4-1-クライアントツールをインストールする" class="headerlink" title="4.1 クライアントツールをインストールする"></a>4.1 クライアントツールをインストールする</h3><pre><code class="language-bash">sudo apt update
+sudo apt install -y rsync openssh-client
+</code></pre>
+<h3 id="4-2-SSH-接続を確認する"><a href="#4-2-SSH-接続を確認する" class="headerlink" title="4.2 SSH 接続を確認する"></a>4.2 SSH 接続を確認する</h3><pre><code class="language-bash">ssh -p 2222 Almaユーザー名@127.0.0.1
+</code></pre>
+<p>初回接続時は、表示されたホスト鍵のフィンガープリントを AlmaLinux 側で確認してから承認します。ログインできたら <code>exit</code> で Ubuntu に戻ります。</p>
+<h2 id="5-転送前のドライラン"><a href="#5-転送前のドライラン" class="headerlink" title="5. 転送前のドライラン"></a>5. 転送前のドライラン</h2><p>実ファイルを書き込む前に、<code>--dry-run</code> と <code>--itemize-changes</code> を付けて転送予定を確認します。</p>
+<pre><code class="language-bash">rsync -aHn \
+  --itemize-changes \
+  --ignore-existing \
+  --partial-dir=.rsync-partial \
+  --no-owner \
+  --no-group \
+  --exclude=&#39;.cache/&#39; \
+  --exclude=&#39;node_modules/&#39; \
+  --exclude=&#39;target/&#39; \
+  --exclude=&#39;.venv/&#39; \
+  -e &quot;ssh -p 2222&quot; \
+  Almaユーザー名@127.0.0.1:/home/Almaユーザー名/ \
+  /home/Ubuntuユーザー名/
+</code></pre>
+<p><code>-n</code> がドライランです。表示内容に問題がなければ、次の正式移行へ進みます。</p>
+<h2 id="6-正式な移行"><a href="#6-正式な移行" class="headerlink" title="6. 正式な移行"></a>6. 正式な移行</h2><p>Ubuntu で次のコマンドを実行します。</p>
+<pre><code class="language-bash">rsync -aH \
+  --ignore-existing \
+  --partial-dir=.rsync-partial \
+  --info=progress2 \
+  --no-owner \
+  --no-group \
+  --exclude=&#39;.cache/&#39; \
+  --exclude=&#39;node_modules/&#39; \
+  --exclude=&#39;target/&#39; \
+  --exclude=&#39;.venv/&#39; \
+  -e &quot;ssh -p 2222&quot; \
+  Almaユーザー名@127.0.0.1:/home/Almaユーザー名/ \
+  /home/Ubuntuユーザー名/
+</code></pre>
+<p>両方のユーザー名が <code>ouki</code> の場合は、次のようになります。</p>
+<pre><code class="language-bash">rsync -aH \
+  --ignore-existing \
+  --partial-dir=.rsync-partial \
+  --info=progress2 \
+  --no-owner \
+  --no-group \
+  --exclude=&#39;.cache/&#39; \
+  --exclude=&#39;node_modules/&#39; \
+  --exclude=&#39;target/&#39; \
+  --exclude=&#39;.venv/&#39; \
+  -e &quot;ssh -p 2222&quot; \
+  ouki@127.0.0.1:/home/ouki/ \
+  /home/ouki/
+</code></pre>
+<p>移行元パスの末尾にある <code>/</code> は、Home ディレクトリそのものではなく、その中身をコピーする指定です。これにより Ubuntu 側へ余分な <code>ouki</code> ディレクトリを作りません。</p>
+<h2 id="7-各オプションの役割"><a href="#7-各オプションの役割" class="headerlink" title="7. 各オプションの役割"></a>7. 各オプションの役割</h2><table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-a</code></td>
+<td>ディレクトリを再帰的に転送し、可能な範囲で属性を維持する</td>
+</tr>
+<tr>
+<td><code>-H</code></td>
+<td>ハードリンク関係を維持する</td>
+</tr>
+<tr>
+<td><code>--ignore-existing</code></td>
+<td>Ubuntu に同名の宛先ファイルがある場合は更新しない</td>
+</tr>
+<tr>
+<td><code>--partial-dir=.rsync-partial</code></td>
+<td>中断した転送データを専用ディレクトリに保持し、再開に利用する</td>
+</tr>
+<tr>
+<td><code>--info=progress2</code></td>
+<td>転送全体の進捗を表示する</td>
+</tr>
+<tr>
+<td><code>--no-owner</code></td>
+<td>AlmaLinux 側の所有者情報を適用しない</td>
+</tr>
+<tr>
+<td><code>--no-group</code></td>
+<td>AlmaLinux 側のグループ情報を適用しない</td>
+</tr>
+<tr>
+<td><code>-e &quot;ssh -p 2222&quot;</code></td>
+<td>ポート2222の SSH 経由で転送する</td>
+</tr>
+</tbody></table>
+<p>実行後の動作は次のとおりです。</p>
+<ul>
+<li>AlmaLinux のファイルは削除・変更されない。</li>
+<li>Ubuntu に存在しないファイルはコピーされる。</li>
+<li>Ubuntu に同名ファイルがある場合はスキップされる。</li>
+<li>Ubuntu にしか存在しないファイルは維持される。</li>
+<li>中断後は同じコマンドを再実行できる。</li>
+<li>完了済みファイルは再転送されず、部分転送は専用ディレクトリから再利用される。</li>
+<li>中継ディレクトリや一時圧縮ファイルは不要。</li>
+</ul>
+<blockquote>
+<p><strong>注意:</strong> 「同名ファイル」はパスが同じファイルを意味します。Ubuntu 側のファイルが古い、空、または内容が異なっていても、<code>--ignore-existing</code> により上書きされません。競合ファイルは移行後に個別比較してください。</p>
+</blockquote>
+<h2 id="8-使用禁止オプション"><a href="#8-使用禁止オプション" class="headerlink" title="8. 使用禁止オプション"></a>8. 使用禁止オプション</h2><p>この移行では、次のオプションを使用してはいけません。</p>
+<pre><code class="language-text">--delete
+--delete-before
+--delete-after
+--delete-during
+--delete-delay
+--remove-source-files
+</code></pre>
+<ul>
+<li><code>--delete*</code> は、AlmaLinux に存在しない Ubuntu 側のファイルを削除する可能性があります。</li>
+<li><code>--remove-source-files</code> は、転送に成功した AlmaLinux 側のファイルを削除します。</li>
+</ul>
+<p>コマンドを再実行するときも、これらのオプションを追加しないでください。</p>
+<h2 id="9-移行後の確認"><a href="#9-移行後の確認" class="headerlink" title="9. 移行後の確認"></a>9. 移行後の確認</h2><p>転送完了後、まず同じコマンドへ <code>--dry-run --itemize-changes</code> を追加して再確認します。そのうえで、次の項目を確認します。</p>
+<ul>
+<li>必要な文書とプロジェクトが Ubuntu に存在するか</li>
+<li><code>.bashrc</code>、<code>.zshrc</code> などの Shell 設定が意図どおりか</li>
+<li><code>.gitconfig</code> のユーザー情報や設定が正しいか</li>
+<li><code>.ssh</code> の権限が適切か。必要に応じて <code>chmod 700 ~/.ssh</code> と秘密鍵の <code>chmod 600</code> を確認する</li>
+<li>秘密情報や認証情報を、現在も Ubuntu で利用してよいか</li>
+<li>除外した依存ディレクトリを Ubuntu 側で再生成できるか</li>
+</ul>
+<p>移行後も AlmaLinux 9 は4～6か月保管し、次の用途に使用します。</p>
+<ul>
+<li>ファイルの移行漏れを確認する</li>
+<li>旧環境の設定と比較する</li>
+<li>パッケージやサービスを追加移行する</li>
+<li>Ubuntu 環境の安定性を検証する</li>
+<li>必要に応じて同じコマンドで追加同期する</li>
+</ul>
+<p>Ubuntu が必要なファイル、ツール、サービスを完全に引き継いだと確認するまでは、AlmaLinux WSL インスタンスを登録解除・削除しません。</p>
+<h2 id="10-作業終了"><a href="#10-作業終了" class="headerlink" title="10. 作業終了"></a>10. 作業終了</h2><p>移行作業を終えたら、AlmaLinux で起動した一時 SSH サーバーを停止します。</p>
+<pre><code class="language-bash">sudo pkill -f &#39;/usr/sbin/sshd.*2222&#39;
+</code></pre>
+<p>実行前に <code>sudo ss -lntp | grep 2222</code> で対象プロセスを確認してください。AlmaLinux 自体は、検証期間が終わるまで残します。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2025 - 2026 ouki0331 技術ブログ
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ouki0331
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script>
+        console.log("Welcome to Argvchs' blog!");
+        if (!window.hasOwnProperty("ontouchstart")) {
+            let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+            document.body.append(document.createRange().createContextualFragment(html));
+        }
+    </script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
